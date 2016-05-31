@@ -1,6 +1,6 @@
 <?php
 
-//this file contains handy functions that perform database queries, please only do this by referencion to the functions in the pdo-
+//this file contains handy functions that perform database queries, please only do this by referencing the functions in the pdo-
 //class by using the Paamayim Nekudotayim operator
 
 class databases 
