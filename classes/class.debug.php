@@ -1,6 +1,14 @@
 <?php
 /* Geert Weggemans */
 
+/* comment by fondas: output's a log file into the same folder as your project.
+   copy (Debug::writeToLogFile("")) to where ever you wanna know if your code reaches this point.
+   anything written in the ("") part will be logged and saved with a timestamp in a .txt file in your same folder.
+*/
+
+
+
+
 abstract class Debug
 {
     public static function writeToLogFile($logmsg)
