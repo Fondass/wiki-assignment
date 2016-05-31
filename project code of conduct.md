@@ -22,3 +22,7 @@ class.controller.ajax.php
 
 (Javescript)
 
+
+Prefix for fondas:
+classes: Fon
+functions/methods : fon
