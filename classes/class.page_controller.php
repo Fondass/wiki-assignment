@@ -1,4 +1,9 @@
 <?php
+/* Sybren Bos.... wished al rights were reserved, but they weren't :( 
+   Use at own risk (i am not liable for any mistakes and/or errors, yours and mine) */
+
+
+
 
 class FonController 
 {
