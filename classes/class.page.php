@@ -5,7 +5,7 @@
 	//include the classes that extend this class
 	//include('classes/');
 		
-	class htmlDoc
+	class Page
 		{
 			var $page = "";
 			var $post = "";
