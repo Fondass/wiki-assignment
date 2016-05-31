@@ -1,7 +1,9 @@
 <?php
 	
-	//include('Opdrachteen.class.php');
-	include('classes/htmlDocOpdrachtEen.class.php');
+	//this is the base html template for a page
+	
+	//include the classes that extend this class
+	//include('classes/');
 		
 	class htmlDoc
 		{
