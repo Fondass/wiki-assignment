@@ -5,7 +5,7 @@
 # Desc		: Base Data Acces Object
 ################################################################################
 
-// basic PDO DATA ACCESS OBJECT class. best practice is to include once in index.php
+// basic PDO DATA ACCESS OBJECT class. best practice is to require once in index.php
 
 abstract class PDODAO
 {
