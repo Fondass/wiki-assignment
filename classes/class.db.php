@@ -21,4 +21,10 @@ class databases
 	
 	//TODO: add more functions here
 	
+        function fonSavePageToDatabase()
+        {
+            $sql= 'INSERT INTO '
+        }
+        
+        
 ?>
