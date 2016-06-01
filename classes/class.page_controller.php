@@ -7,13 +7,17 @@
 
 class FonController 
 {
-        
+    // constructs an instance of the controller class and also creates a database object. (is this the best practice?)    
     public function __construct()
     {
-	
+	require_once("classes/class.pdo.php");
+        require_once("classes/class.db.php");
+        $this->db = new database();
     }
     
+//===============================================================
     
+    //checks for ajax request (not really used atm)
     public function fonRequestCheck()
     {
         if (isset($_POST["page"]) || isset($_GET["page"]))
@@ -27,20 +31,26 @@ class FonController
         }  
     }
     
+//===============================================================    
+    
+    //this call the show function on the page object created with fonPageController()
     public function fonHandleRequest() 
     {
         $pagevar =  $this->fonGetPage();
         $page = $this->fonPageController(htmlspecialchars($pagevar, ENT_QUOTES, "UTF-8"));
         if ($page)
         {
-            $page->ShowPage();
+            $page->show();
         }
         else
         {
-            echo "Gnomes have stolen the webpage, we apoligise for their natural behavior";
+            echo "Gnomes have stolen the webpage, we apologize for their natural behaviour";
         }
     }
     
+//==============================================================
+    
+    //this returns the accurate parameter depending on what page is requested
     public function fonGetPage () 
     {
         if (isset($_POST["page"])) 
@@ -56,7 +66,11 @@ class FonController
             return "";
         }
     }
+  
+
+//==============================================================
     
+    //more ajax stuff    
     public function fonHandleAjaxRequest()
     {
         $ajaxaction = htmlspecialchars($this->fonGetAjaxPage(), ENT_QUOTES, "UTF-8");
@@ -67,7 +81,10 @@ class FonController
             
         }      
     }
+
+//==============================================================
     
+    //more ajax stuff
     public function fonGetAjaxPage()
     {
         if (isset($_POST["ajaxaction"]))
@@ -80,27 +97,43 @@ class FonController
         }
     }
     
+//==============================================================
     
     public function fonPageController($pagevar) 
     {
+        //the actual switch that will return a page object depending on the $pagevar
         $page = null;
         require_once("classes/class.page.php");
         require_once("classes/class.page.wiki.php");
         switch ($pagevar) 
         {
-            case "":   /* page name of page */
-                require_once(""); /* file name of page  */
-                $page = new ("");  /* class name of page */
+            ########MODEL CODE#######
+            # case "":   /* page name of page */
+            #    require_once(""); /* file name of page  */
+            #    $page = new ""();  /* class name of page */
+            #    break;
+            #########################
+            
+        //  case "wikipage":
+        //      
+        //
+        //
+            
+            case "test":   /* page name of page */
+                
+                //query the database for an article based upon id
+                require_once("classes/class.page.wiki.test.php"); /* file name of page  */
+                $temp = $this->db->selectTest(1);
+                
+                $page = new Test($temp);  /* class name of page */
                 break;
                             
             case "home":
                 
             default:
                 include_once("classes/class.page.wiki.home.php");
-                $page = new FonHomePage();
+                $page = new Home();
         }
         return $page;
     }
 }
-
-
