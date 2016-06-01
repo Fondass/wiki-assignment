@@ -84,6 +84,8 @@ class FonController
     public function fonPageController($pagevar) 
     {
         $page = null;
+        require_once("classes/class.page.php");
+        require_once("classes/class.page.wiki.php");
         switch ($pagevar) 
         {
             case "":   /* page name of page */
