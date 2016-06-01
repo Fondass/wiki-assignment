@@ -10,13 +10,12 @@ define("PDOdatabase", "wiki");
 
 session_start();
 
-require_once("classes/class.pdo.php");
 require_once("classes/class.debug.php");
 include("classes/class.page_controller.php");
 
 
 
-$database = new "";
+//$database = new "";
 
 
 
