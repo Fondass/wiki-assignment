@@ -21,9 +21,30 @@ class databases
 	
 	//TODO: add more functions here
 	
-        function fonSavePageToDatabase()
+        public function fonSavePageToDatabase($title, $content, $tags)
         {
-            $sql= 'INSERT INTO '
+            
+            $user_id = "";
+            
+            
+            
+            $sql= 'INSERT INTO pages (name, content, users_id) VALUES
+                 ("'.$title.'", "'.$content.'", "'.$user_id.'");';
+            PDODAO::doInsertQuery($sql);
+            
+            $sql= 'SELECT id FROM pages WHERE name="'.$title.'"';
+            $statement = PDODAO::prepareStatement($sql);
+            $result = PDODAO::getArray($statement);
+            
+
+            foreach ($tags as $value)
+            {
+                $sql= 'INSERT INTO pages_tags (pages_id, tags_id) VALUES ("'.$result.'", "'.$value.'")';
+                PDODAO::doInsertQuery($sql);
+            }
+            
+            
+            
         }
         
 //=============================================
