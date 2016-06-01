@@ -10,9 +10,9 @@ class FonController
     // constructs an instance of the controller class and also creates a database object. (is this the best practice?)    
     public function __construct()
     {
-	require_once("classes/class.pdo.php");
-        require_once("classes/class.db.php");
-        $this->db = new database();
+//	require_once("classes/class.pdo.php");
+//        require_once("classes/class.db.php");
+//        $this->db = new database();
     }
     
 //===============================================================
@@ -114,18 +114,23 @@ class FonController
             #    break;
             #########################
             
-        //  case "wikipage":
-        //      
-        //
-        //
+        
+        //  case "editor":
+        //  case "search":
+        //  case "login":
             
-            case "test":   /* page name of page */
+            case "wikipage":
+                require_once("classes/class.page.wiki.wikipage.php");
+                $page = new Wikipage($_GET["id"]);  // this needs to be changed a little bit
+                break;
+            
+            case "test":
                 
                 //query the database for an article based upon id
-                require_once("classes/class.page.wiki.test.php"); /* file name of page  */
+                require_once("classes/class.page.wiki.test.php"); 
                 $temp = $this->db->selectTest(1);
                 
-                $page = new Test($temp);  /* class name of page */
+                $page = new Test($temp);
                 break;
                             
             case "home":
