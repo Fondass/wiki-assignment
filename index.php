@@ -2,10 +2,17 @@
 
 define("_LOGPATH_", "logs/");
 
+define("PDOdriver", "mysql");
+define("PDOhost", "localhost");
+define("PDOuser", "root");
+define("PDOpass", "");
+define("PDOdatabase", "wiki");
+
 session_start();
 
-require_once("class.debug.php");
-include("class.page_controller.php");
+require_once("classes/class.pdo.php");
+require_once("classes/class.debug.php");
+include("classes/class.page_controller.php");
 
 
 
