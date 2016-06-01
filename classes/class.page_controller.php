@@ -94,7 +94,7 @@ class FonController
             case "home":
                 
             default:
-                include_once("page.home.php");
+                include_once("classes/class.page.wiki.home.php");
                 $page = new FonHomePage();
         }
         return $page;
