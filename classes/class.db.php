@@ -17,7 +17,7 @@ class databases
 		}
 	}
 	
-	//=============================================
+//=============================================
 	
 	//TODO: add more functions here
 	
@@ -25,6 +25,17 @@ class databases
         {
             $sql= 'INSERT INTO '
         }
+        
+//=============================================
+    
+        // a test function that selects an article in the database based upon id.
+    function selectTest($id)
+	{
+		$sql = "SELECT * FROM pages WHERE id = ".$id;
+		$statement = PDODAO::prepareStatement($sql);
+		return PDODAO::getArrays($statement);
+	}
+
         
         
 ?>
