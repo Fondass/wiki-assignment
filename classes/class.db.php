@@ -1,7 +1,7 @@
 <?php
 
 //this file contains handy functions that perform database queries, please only do this by referencing the functions in the pdo-
-//class by using the Paamayim Nekudotayim (::) operator
+//class (not on github) by using the Paamayim Nekudotayim (::) operator
 
 class databases 
 {
@@ -49,7 +49,18 @@ class databases
         
 //=============================================
     
-        // a test function that selects an article in the database based upon id.
+    // a function that selects an article in the database based upon it's name.
+    // there may be a better pdodao:: function to do this than getArrays
+    function selectPagesName($name)
+	{
+		$sql = 'SELECT * FROM pages WHERE name = "'.$name.'"';
+		$statement = PDODAO::prepareStatement($sql);
+		return PDODAO::getArrays($statement);
+	}
+        
+//=============================================
+    
+    // a test function that selects an article in the database based upon id.
     function selectTest($id)
 	{
 		$sql = "SELECT * FROM pages WHERE id = ".$id;
