@@ -8,7 +8,7 @@
         require_once("class.db.php");
         //include('classes/class.page.php');
         
-        require_once("class.pdo.php");
+        //require_once("class.pdo.php");
         //require_once("class.db.php");
         //$this->db = new database();
         
@@ -50,9 +50,9 @@
             {
                 $this->wikipage = $this->db->selectPagesName($this->pagename);
                 
-                echo "Article name: ".$this->wikipage[0]['name'];
-                echo "<br />Page content: ".$this->wikipage[0]['content'];
-                echo "<br />Creator id: ".$this->wikipage[0]['users_id'];
+                echo "Article name: ".$this->wikipage['name'];
+                echo "<br />Page content: ".$this->wikipage['content'];
+                echo "<br />Creator id: ".$this->wikipage['users_id'];
             }
             
             
@@ -60,7 +60,7 @@
             
             //TODO: add variables and functions unique to the home page
 
-            function headerContent() 
+            function bodyContent() 
                 { 
                     $this->wikiContent();
                 }
