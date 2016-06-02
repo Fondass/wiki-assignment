@@ -121,11 +121,20 @@ class FonController
             
             case "wikipage":
                 require_once("classes/class.page.wiki.wikipage.php");
-                $page = new Wikipage($_GET["id"]);  // this needs to be changed a little bit
+                $page = new Wikipage($_GET["id"]);  // this needs to be changed for more security
                 break;
             
-            case "test":
+            case "searchresult":
+                require_once("classes/class.page.searchresult.php");
+                $int = (int)$_POST["tagid"]; //this needs to be changed for security
+                $page = new Searchresult($int);  
+                break;
+            case "search":
+                require_once("classes/class.page.search.php");
+                $page = new SearchPage();
+                break;
                 
+            case "test":                
                 //query the database for an article based upon id
                 require_once("classes/class.page.wiki.test.php"); 
                 $temp = $this->db->selectTest(1);
