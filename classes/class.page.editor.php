@@ -42,28 +42,54 @@ class FonEditorPage extends Wikipage
     
     public function bodyContent()
     {
-        if (isset($this->pagenamenj))
+        if (isset($this->pagename) && $this->pagename !== "editor")
         {
-            if ($this->user->fonLoggedUser() === true && $this->db->fonGetPermission() === 2)
+            if (1 == 1) // ($this->user->fonLoggedUser())
             {
-                if (!isset($_POST["submitexistingpage"]))
+                $opUser = $this->db->selectPagesName($this->pagename);
+                
+                if ( 1 == 1)    // ($opUser[3] === $this->db->fonGetActiveUserId())
                 {
-                    $this->fonEditPageForm($this->pagename);
+                    if (!isset($_POST["submitexistingpage"]))
+                    {
+                        $this->fonEditPageForm($this->pagename);
+                    }
+                    else
+                    {
+                        $this->fonEditPageFormFilled();
+                    } 
+                }
+                elseif ($this->db->fonGetPermission() === 2)
+                {
+                    if ($this->db->fonPageOwnerIsAdmin() === false)
+                    {
+                        if (!isset($_POST["submitexistingpage"]))
+                        {
+                            $this->fonEditPageForm($this->pagename);
+                        }
+                        else
+                        {
+                            $this->fonEditPageFormFilled();
+                        }    
+                    }
+                    else
+                    {
+                        echo 'This page is controlled by another Admin';
+                    }
                 }
                 else
                 {
-                    $this->fonEditPageFormFilled();
+                    echo 'You can only edit your own pages';
                 }
             }
             else
             {
-                echo 'You do not have abab up up down left right sufficient permission to edit this page';
+                echo 'You need to be logged in to edit pages you scrub';
             }
         }
         else
         {
-           // if ($this->user->fonLoggedUser() === true && $this->db->fonGetPermission() !== 0)
-            if (1 == 1)
+            if ($this->user->fonLoggedUser())
             {
                 if (!isset($_POST["submitnewpage"]))
                 {
@@ -76,7 +102,7 @@ class FonEditorPage extends Wikipage
             }
             else
             {
-                echo 'You do not have sufficient permission to edit this page';
+                echo 'You do not have sufficient permission to create a new page';
             }
         } 
     }
@@ -96,7 +122,7 @@ class FonEditorPage extends Wikipage
      * 
      */
     
-    protected function foncreatePageFormFilled()
+    protected function fonCreatePageFormFilled()
     {
         echo "Your page edit has succsesfully evaded the content police and is now
             being updated on the wiki"; 
@@ -105,20 +131,81 @@ class FonEditorPage extends Wikipage
         $title = htmlspecialchars($_POST["wikititle"], ENT_QUOTES, "UTF-8"); 
         $content = htmlspecialchars($_POST["pageeditor"], ENT_QUOTES, "UTF-8");
         
-        function fonArrayScrambler(&$tags)
-        {
-            foreach ($tags as &$value)
-            { 
-                $value = htmlspecialchars($value, ENT_QUOTES, "UTF-8"); 
-            }
+        $this->fonArrayScrambler($tags);
+
+        $this->db->fonSavePageToDatabase($title, $content, $tags);
+    }
+    
+    protected function fonArrayScrambler(&$tags)
+    {
+        foreach ($tags as &$value)
+        { 
+            $value = htmlspecialchars($value, ENT_QUOTES, "UTF-8"); 
         }
         
-        fonArrayScrambler($tags);
-
-       $this->db->fonSavePageToDatabase($title, $content, $tags);
+        return $tags;
     }
+    
+    protected function fonEditPageForm($pagename)
+    {
+        
+        $page = $this->db->selectPagesName($pagename);
+        
+        $title = $page[1];
+        $content = $page[2];
+        $id = $page[0];
+        
+        $tags = $this->db->getTags();
+        $validtags = $this->db->fonGetTagsOnPage($id);
+        
+            
+        echo '<div><form method="POST">
+            <fieldset>
+            <legend>Edit wiki page</legend>
+            <input style="width:30%; heigth:50px; font-size:30px" type="text" name="wikititle" value="'.$title.'"><br>
+            Page editor<br>
+            <textarea style="width:70%; height:500px;" name="pageeditor">'.$content.'</textarea>
+            <fieldset style="display:inline-block; float:right; margin-right:15%; margin-top:-0.3%;">
+            <legend>Search tags</legend>';
+            
+
+        foreach ($tags as $value)
+        {
+            
+            if (in_array($value[0], $validtags))
+            {
+                echo '<input type="checkbox" name="tag[]" value='.$value[0].' checked> '.$value[1].'<br>';
+            }
+            else
+            {
+                echo '<input type="checkbox" name="tag[]" value='.$value[0].'>'.$value[1].'<br>';
+            }
+        }
+     
+        echo '</fieldset>
+            <input type="hidden" name="pageid" value='.$id.'>
+            <input type="submit" name="submitexistingpage" value="Commit">
+            </form></div>';
+    }
+    
+    protected function fonEditPageFormFilled()
+    {
+        echo "Your page edit has succsesfully evaded the content police and is now
+            being updated on the wiki"; 
+        
+        $tags = $_POST["tag"];
+        $title = htmlspecialchars($_POST["wikititle"], ENT_QUOTES, "UTF-8"); 
+        $content = htmlspecialchars($_POST["pageeditor"], ENT_QUOTES, "UTF-8");
+        $id = htmlspecialchars($_POST["pageid"], ENT_QUOTES, "UTF-8");
+
+       $this->fonArrayScrambler($tags);
+
+       $this->db->fonSaveExistingPageToDatabase($title, $content, $tags, $id);
+    }
+
+    
 }
 
-$pager = new FonEditorPage("editor");
+$pager = new FonEditorPage("Doritos");
 
 $pager->show();
