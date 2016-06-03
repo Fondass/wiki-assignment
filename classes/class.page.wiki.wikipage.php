@@ -51,9 +51,17 @@
             {
                 $this->wikipage = $this->db->selectPagesName($this->pagename);
                 
-                echo "Article name: ".$this->wikipage['name'];
-                echo "<br />Page content: ".$this->wikipage['content'];
-                echo "<br />Creator id: ".$this->wikipage['users_id'];
+                echo "Article name: ".$this->wikipage[0]['name'];
+                echo "<br />Article id: ".$this->wikipage[0]['id'];
+                echo "<br />Page content: ".$this->wikipage[0]['content'];
+                echo "<br />Creator id: ".$this->wikipage[0]['users_id'];
+                echo "<br />Tag id's: ";
+                
+                foreach ($this->wikipage as $key => $value)
+                {
+                    echo $value['tags_id']." ";
+                }
+                
             }
             
             
