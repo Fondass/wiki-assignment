@@ -11,7 +11,7 @@
 
     class Searchresult extends Page
     {
-        var $tag = "";
+        var $tag = array();
         var $pages = array();
         var $db;
             
@@ -21,10 +21,11 @@
 
     public function __construct($tag) 
     {
-        if(is_int($tag))
+        if (true)//(is_array($tag))
         {
             $this->tag = $tag;
             $this->db = new database();
+            var_dump($this->tag);
         }
         else
         {
@@ -33,22 +34,25 @@
     }
 
 //================================================         
-    //returns an array of pages
+    //returns an array of pages corresponding to one tag. I am using way too many functions to do this, may need to be reduced
 
-    protected function searchPagesOnTags() 
+    protected function searchPagesOnTags($val) 
     {
-        $this->pages = $this->db->selectPagesOnTag($this->tag);
+        $this->pages = $this->db->selectPagesOnTag($val);
         return $this->pages;
     }
     
 //================================================    
+    //prints list of pages corresponding for each tag for each tag in the tag array
     protected function testContent()
     {
-        $this->searchPagesOnTags();
-        
-        foreach($this->pages as $key => $value)
+        foreach($this->tag as $key => $value)
         {
-            echo '* <a href="?page=wikipage&id='.$value["name"].'">'.$value["name"]."</a><br />";
+            $this->searchPagesOnTags($value);
+            foreach($this->pages as $key => $value)
+            {
+                echo '* <a href="?page=wikipage&id='.$value["name"].'">'.$value["name"]."</a><br />";
+            }
         }
     }
 //================================================         
