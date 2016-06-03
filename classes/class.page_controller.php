@@ -20,14 +20,13 @@ class FonController
     //checks for ajax request (not really used atm)
     public function fonRequestCheck()
     {
-        if (isset($_POST["page"]) || isset($_GET["page"]))
-        {
-            $this->fonHandleRequest();
-        }
-        
-        elseif (isset($_POST["ajaxaction"]) || isset($_GET["ajaxaction"]))
+        if (isset($_POST["ajaxaction"]) || isset($_GET["ajaxaction"]))
         {
             $this->fonHandleAjaxRequest();
+        }
+        else
+        {
+            $this->fonHandleRequest();
         }  
     }
     
