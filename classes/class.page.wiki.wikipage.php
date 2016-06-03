@@ -1,24 +1,12 @@
 <?php
 	
-	//this sample attempts to generate a wiki page based upon data from the page table in the database
+	//this generate a wiki page based upon data from the page and pages_tags tables in the database
 
-        //
         require_once("class.page.php");
         require_once("class.page.wiki.php");
         require_once("class.db.php");
-        //include('classes/class.page.php');
         require_once("class.login.php");
-        //require_once("class.pdo.php");
-        //require_once("class.db.php");
-        //$this->db = new database();
-        
-        //define("_LOGPATH_", "logs/");
 
-        //define("PDOdriver", "mysql");
-        //define("PDOhost", "localhost");
-        //define("PDOuser", "root");
-        //define("PDOpass", "");
-        //define("PDOdatabase", "wiki");
 
 //================================================
 
