@@ -91,6 +91,21 @@ class database
             return PDODAO::getArrays($statement);
 	}
 
+//=============================================
+
+        public function fonSaveExistingPageToDatabase($title, $content, $tags, $id)
+        {
+            $sql= 'UPDATE pages SET name="'.$title.'", content="'.$content.'" 
+                WHERE id='.$id.';';
+            PDODAO::doUpdateQuery($sql);
+            
+            foreach ($tags as $value)
+            {
+                $sql2= 'UPDATE pages_tags SET pages_id='.$id.', tags_id='.$value.'
+                    WHERE pages_id='.$id.';';
+                PDODAO::doUpdateQuery($sql2);
+            }
+        }
  //=============================================
  
         /*
@@ -148,5 +163,55 @@ class database
             }
         }
 //=============================================        
+        public function fonGetActiveUserId()
+        {
+            $username = $_SESSION["username"];
+            
+            if (isset($username) && $username !== "")
+            {
+                $sql = 'SELECT id FROM users WHERE name="'.$username.'"';
+                $statement = PDODAO::prepareStatement($sql);
+                $result = PDODAO::getArray($statement);
+
+                return $result[0];
+            }
+        }
         
+//=============================================
+        
+        public function fonPageOwnerIsAdmin($pagename)
+        {
+            $sql = 'SELECT users_id FROM pages WHERE name = "'.$pagename.'"';
+            $statement = PDODAO::prepareStatement($sql);
+            $result = PDODAO::getArray($statement);
+            
+            $sql2 = 'SELECT permission FROM users WHERE id ='.$result[0].'';
+            $statement2 = PDODAO::prepareStatement($sql2);
+            $permission = PDODAO::getArray($statement2);
+            
+            if ($permission === 2)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+//=============================================        
+        
+        public function fonGetTagsOnPage($pageid)
+        {
+            $sql = 'SELECT tags_id FROM pages_tags WHERE pages_id='.$pageid.'';
+            $statement = PDODAO::prepareStatement($sql);
+            
+            $result = PDODAO::getArrays($statement);
+            
+            foreach ($result as $value)
+            {
+                $arrays[]=$value[0];
+            }
+            
+            return $arrays;    
+        }        
 }
