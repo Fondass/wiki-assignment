@@ -50,7 +50,7 @@ class FonLogin
         
         $pass = $this->db->fonCheckUserCredentials($username);
         
-        if ($password === $pass)
+        if (htmlspecialchars($password, ENT_QUOTES, "UTF-8") === $pass)
         {
             $_SESSION["username"] = $username;
             return true;
