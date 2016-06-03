@@ -3,4 +3,3 @@ We are currently creating a wiki as part of our traineeship in software engineer
 
 php version: 5.6
 
-encoding: UTF-8
