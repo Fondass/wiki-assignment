@@ -7,7 +7,7 @@
         require_once("class.page.wiki.php");
         require_once("class.db.php");
         //include('classes/class.page.php');
-        
+        require_once("class.login.php");
         //require_once("class.pdo.php");
         //require_once("class.db.php");
         //$this->db = new database();
@@ -37,6 +37,7 @@
                 {
                     $this->pagename = $pagename;
                     $this->db = new database();
+                    $this->user = new FonLogin();
                 }
                 else
                 {
