@@ -76,10 +76,10 @@ class database
     // a function that selects an article in the database based upon it's name.
     // there may be a better pdodao:: function to do this than getArrays (replaced with getArray)
     public function selectPagesName($name)
-	{
-            $sql = 'SELECT * FROM pages WHERE name = "'.$name.'"';
-            return PDODAO::getDataArray($sql);
-	}
+    {
+        $sql = 'SELECT * FROM pages JOIN pages_tags ON pages.id = pages_tags.pages_id WHERE pages.name = "'.$name.'"';
+        return PDODAO::getDataArrays($sql);
+    }
         
 //=============================================
     
