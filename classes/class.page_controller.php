@@ -129,9 +129,15 @@ class FonController
                 $int = (int)$_POST["tagid"]; //this needs to be changed for security
                 $page = new Searchresult($int);  
                 break;
+                
             case "search":
                 require_once("classes/class.page.search.php");
                 $page = new SearchPage();
+                break;
+            
+            case "userpanel":
+                require_once("classes/class.page.userpanel.php");
+                $page = new Userpanel();
                 break;
                 
             case "test":                
