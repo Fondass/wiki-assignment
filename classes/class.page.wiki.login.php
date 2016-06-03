@@ -75,7 +75,7 @@ class FonLoginPage extends Wikipage
     }
 }
 
-$page = new FonLoginPage();
+$page = new FonLoginPage("login");
 
 
 
