@@ -1,23 +1,20 @@
 <?php
 
-/* 
- * 
- * 
- * 
- */
-require_once ("class.page.php");
+require_once ("class.page.wiki.wikipage.php");
 require_once ("class.debug.php");
 
 
-class FonEditorPage extends Page
+class FonEditorPage extends Wikipage
 {
     
-  //  public function __construct($page)
-  //  {
-  //  }
+    /*
+     * function to pressent the edit pages form. To add tags, simply copy/paste a input type
+     * checkbox line, give it a new vallue (in the form of the highest existing number+1)
+     * and put a name to it.
+     */
     
     
-    protected function fonEditPageForm()
+    protected function fonCreatePageForm()
     {
         echo '<div><form method="POST">
             <fieldset>
@@ -33,24 +30,73 @@ class FonEditorPage extends Page
             <input type="checkbox" name="tag[]" value="4"> Siege Engines<br>
             <input type="checkbox" name="tag[]" value="5"> Kingdoms<br>
             </fieldset>
-            <input type="submit" name="submit7fgt" value="Commit">
+            <input type="submit" name="submitnewpage" value="Commit">
             </form></div>'; 
     }
+    
+    /*
+     * bodycontent is a function that simply checks if a form needs to be filled or 
+     * a form has yet to be filled in.
+     */
     
     
     public function bodyContent()
     {
-        if (!isset($_POST["submit7fgt"]))
+        if (isset($this->pagenamenj))
         {
-            $this->fonEditPageForm();
+            if ($this->user->fonLoggedUser() === true && $this->db->fonGetPermission() === 2)
+            {
+                if (!isset($_POST["submitexistingpage"]))
+                {
+                    $this->fonEditPageForm($this->pagename);
+                }
+                else
+                {
+                    $this->fonEditPageFormFilled();
+                }
+            }
+            else
+            {
+                echo 'You do not have abab up up down left right sufficient permission to edit this page';
+            }
         }
         else
         {
-            $this->fonEditPageFormFilled();
-        }
+           // if ($this->user->fonLoggedUser() === true && $this->db->fonGetPermission() !== 0)
+            if (1 == 1)
+            {
+                if (!isset($_POST["submitnewpage"]))
+                {
+                    $this->fonCreatePageForm();
+                }
+                else
+                {
+                    $this->fonCreatePageFormFilled();
+                }
+            }
+            else
+            {
+                echo 'You do not have sufficient permission to edit this page';
+            }
+        } 
     }
+
+
+    /*
+     * function to save the page filled in by the user in the database.
+     * 
+     * makes use of:
+     * 
+     * fonArrayScrambler.
+     * and internal function to loop through the checkbox array and give
+     * every value a htmlspecialchars treatment.
+     * 
+     * $this->db->fonSavePageToDatabase
+     * function in (class.db.php) that saves al values into the database
+     * 
+     */
     
-    protected function fonEditPageFormFilled()
+    protected function foncreatePageFormFilled()
     {
         echo "Your page edit has succsesfully evaded the content police and is now
             being updated on the wiki"; 
@@ -68,30 +114,11 @@ class FonEditorPage extends Page
         }
         
         fonArrayScrambler($tags);
-       
-        Debug::writeToLogFile("content is:".$content);
-        Debug::writeToLogFile("title is:".$title);
-        
-        foreach ($tags as $value)
-        {
-            Debug::writeToLogFile($value);
-        }
-        
-        
 
        $this->db->fonSavePageToDatabase($title, $content, $tags);
     }
-    
-    
-    
-      
-    
-    
-    
-    
-    
 }
 
-$pager = new FonEditorPage();
+$pager = new FonEditorPage("editor");
 
 $pager->show();
