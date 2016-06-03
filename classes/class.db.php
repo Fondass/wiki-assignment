@@ -106,6 +106,22 @@ class database
             
             return $result[0];            
         }
+        
+//=============================================
+
+	    public function getRegularUsers()
+	    {
+	        $sql = 'SELECT * FROM users WHERE permission = 1';
+	        return PDODAO::getDataArrays($sql);
+	    }
+	
+//=============================================
+	
+	    public function getAdminUsers()
+	    {
+	        $sql = 'SELECT * FROM users WHERE permission = 2';
+	        return PDODAO::getDataArrays($sql);
+	    }
 
  //=============================================
         
