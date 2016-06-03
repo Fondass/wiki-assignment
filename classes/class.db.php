@@ -24,9 +24,15 @@ class database
         public function fonSavePageToDatabase($title, $content, $tags)
         {
             
+            /*
+             * this function get's data from the (class.page.editor.php)
+             * to save a created page into the database.
+             * 2 sql statements and a looped sql statement save data into
+             * the pages and pages_tags table.
+             */
+            
+            
             $user_id = "";
-            
-            
             
             $sql= 'INSERT INTO pages (name, content, users_id) VALUES
                  ("'.$title.'", "'.$content.'", "'.$user_id.'");';
@@ -36,15 +42,11 @@ class database
             $statement = PDODAO::prepareStatement($sql);
             $result = PDODAO::getArray($statement);
             
-
             foreach ($tags as $value)
             {
-                $sql= 'INSERT INTO pages_tags (pages_id, tags_id) VALUES ("'.$result.'", "'.$value.'")';
+                $sql= 'INSERT INTO pages_tags (pages_id, tags_id) VALUES ("'.$result[0].'", "'.$value.'")';
                 PDODAO::doInsertQuery($sql);
             }
-            
-            
-            
         }
 //=============================================
 
@@ -89,6 +91,46 @@ class database
             return PDODAO::getArrays($statement);
 	}
 
+ //=============================================
+ 
+        /*
+         * function that get's data from (class.login.php) in the form of a username.
+         * the function returns the password that is coupled to the filled in username.
+         */
         
+        public function fonCheckUserCredentials($username)
+        {
+            $sql = 'SELECT password FROM users WHERE name="'.$username.'"';
+            $statement = PDODAO::prepareStatement($sql);
+            $result = PDODAO::getArray($statement);
+            
+            return $result[0];            
+        }
+
+ //=============================================
+        
+        /*
+         * function that returns the permission INT that is coupled with the
+         * currently logged in user. (user has to be logged in to use this function
+         */
+        
+        public function fonGetPermission()
+        {
+            $username = $_SESSION["username"];
+            
+            if (isset($username) && $username !== "")
+            {
+                $sql = 'SELECT permission FROM users WHERE name="'.$username.'"';
+                $statement = PDODAO::prepareStatement($sql);
+                $result = PDODAO::getArray($statement);
+
+                return $result[0];
+            }
+            else 
+            {
+                return 0;
+            }
+        }
+//=============================================        
         
 }
