@@ -23,7 +23,7 @@
             {
                 if(is_string($pagename))
                 {
-                    $this->pagename = $pagename;
+                    $this->pagename = htmlspecialchars($pagename, ENT_QUOTES, "UTF-8");
                     $this->db = $db;
                     $this->user = $user;
                 }
