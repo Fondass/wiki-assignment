@@ -35,7 +35,7 @@ class FonController
     //this call the show function on the page object created with fonPageController()
     public function fonHandleRequest() 
     {
-        $pagevar =  $this->fonGetPage();
+        $pagevar = $this->fonGetPage();
         $page = $this->fonPageController(htmlspecialchars($pagevar, ENT_QUOTES, "UTF-8"));
         if ($page)
         {
@@ -104,6 +104,7 @@ class FonController
         $page = null;
         require_once("classes/class.page.php");
         require_once("classes/class.page.wiki.php");
+        //var_dump($pagevar);
         switch ($pagevar) 
         {
             ########MODEL CODE#######
@@ -125,10 +126,28 @@ class FonController
             
             case "searchresult":
                 require_once("classes/class.page.searchresult.php");
-                $int = (int)$_POST["tagid"]; //this needs to be changed for security
-                $page = new Searchresult($int);  
+                $array = $_POST["tagid"]; //this needs to be changed for security
+                $page = new Searchresult($array);  
                 break;
-                
+            
+            case "promote":
+                require_once("classes/class.page.userpanel.php");
+                $newadmin = $_POST["id"];
+                $page = new Userpanel($newadmin);
+                break;
+            
+            case "register":
+                require_once("classes/class.page.register.php");
+                $page = new Register();
+                break;
+            
+            case "registered":
+                require_once("classes/class.page.registered.php");
+                $username = $_POST["username"];
+                $pw = $_POST["pw"];                
+                $page = new Registered($username,$pw);
+                break;
+            
             case "search":
                 require_once("classes/class.page.search.php");
                 $page = new SearchPage();
@@ -149,9 +168,12 @@ class FonController
                             
             case "home":
                 
+            case "":
+                                
             default:
                 include_once("classes/class.page.wiki.home.php");
                 $page = new Home();
+                break;
         }
         return $page;
     }
