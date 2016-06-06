@@ -5,7 +5,7 @@ require_once("class.db.php");
         
 //TODO: this page is only for users that are logged in
         
-class Userpanel extends Page
+class Userpanel extends Wiki
 {
 
     var $users = array();
@@ -13,10 +13,7 @@ class Userpanel extends Page
     
     //=====================================================
     
-    public function __construct() 
-    {
-        $this->db = new database();
-    }
+    
     
     //=====================================================
 
@@ -47,14 +44,9 @@ class Userpanel extends Page
     
     //=====================================================
 
-    public function headerContent() 
+    public function bodyContent() 
     { 
-        $username = isset($_SESSION["username"]);
-        
-        if (isset($username) && $username !== "")
-        {
-            $this->displayUsers();
-        }
-        
+
+        $this->displayUsers();
     }
 }

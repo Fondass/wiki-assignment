@@ -22,7 +22,7 @@
 
             //TODO: add variables and functions unique to the home page
             
-                    function headerContent() 
+                    function bodyContent() 
 			{ 
 				echo "Article name: ".$this->page[0]['name'];
                                 echo "<br />Page content: ".$this->page[0]['content'];

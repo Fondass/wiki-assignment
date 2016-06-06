@@ -5,9 +5,9 @@ require_once("class.page.wiki.wikipage.php");
 include_once("class.login.php");
 require_once("class.debug.php");
 
-session_start();
 
-class FonLoginPage extends Wikipage
+
+class FonLoginPage extends Wiki
 {
     /*
      * $this->user means the active user trying to log in or is already logged in
@@ -55,7 +55,6 @@ class FonLoginPage extends Wikipage
         if ($_SERVER["REQUEST_METHOD"] === "GET" && $this->user->fonLoggedUser() === true)
         {
             echo '<p> Welcome Back pall<p>';
-            Debug::writeToLogFile($this->pagename);
         }
         
         elseif ($_SERVER["REQUEST_METHOD"] === "POST" && $this->user->fonUserCheck() === true)
@@ -75,13 +74,12 @@ class FonLoginPage extends Wikipage
     }
 }
 
-$page = new FonLoginPage("login");
 
 
 
 
 
-$thing = new FonLogin();
 
 
-$page->bodyContent();
+
+

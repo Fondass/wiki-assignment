@@ -19,13 +19,13 @@
 //===================================================            
             //takes a pagename as a parameter
             
-            public function __construct($pagename) 
+            public function __construct($pagename, $db, $user) 
             {
                 if(is_string($pagename))
                 {
                     $this->pagename = $pagename;
-                    $this->db = new database();
-                    $this->user = new FonLogin();
+                    $this->db = $db;
+                    $this->user = $user;
                 }
                 else
                 {
@@ -39,20 +39,27 @@
             {
                 $this->wikipage = $this->db->selectPagesName($this->pagename);
                 
+                echo '<fieldset id="wikigenfield"><legend>
+                    <h3 id="wikigentitle">'.$this->wikipage[0]["name"].'</h3></legend>
+                    <p id="wikigencontent">'.$this->wikipage[0]["content"].'
+                    </p></fieldset><p id="wikigentags"></p>';
+                
+
+                
+               /* 
                 echo "Article name: ".$this->wikipage[0]['name'];
                 echo "<br />Article id: ".$this->wikipage[0]['id'];
                 echo "<br />Page content: ".$this->wikipage[0]['content'];
                 echo "<br />Creator id: ".$this->wikipage[0]['users_id'];
                 echo "<br />Tag id's: ";
                 
-                foreach ($this->wikipage as $key => $value)
+                foreach ($this->wikipage as $value)
                 {
                     echo $value['tags_id']." ";
                 }
-                
+                */
             }
-            
-            
+
 //===================================================
             
             //TODO: add variables and functions unique to the home page

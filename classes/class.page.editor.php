@@ -89,7 +89,7 @@ class FonEditorPage extends Wikipage
         }
         else
         {
-            if ($this->user->fonLoggedUser())
+            if (1 == 1)    // ($this->user->fonLoggedUser())
             {
                 if (!isset($_POST["submitnewpage"]))
                 {
@@ -201,11 +201,6 @@ class FonEditorPage extends Wikipage
        $this->fonArrayScrambler($tags);
 
        $this->db->fonSaveExistingPageToDatabase($title, $content, $tags, $id);
-    }
-
-    
+    }  
 }
 
-$pager = new FonEditorPage("Doritos");
-
-$pager->show();

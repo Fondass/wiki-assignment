@@ -4,9 +4,9 @@ class FonLogin
 {
     
 
-    public function __construct()
+    public function __construct($db)
     {
-        $this->db = new databases();
+        $this->db = $db;
     }
     
     

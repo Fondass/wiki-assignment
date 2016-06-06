@@ -6,20 +6,11 @@
  * 
  */
 
-require_once ("class.page.php");
-require_once ("class.debug.php");
-require_once ("class.db.php");
-//require_once ("class.pdo.php");
-
-
-class SearchPage extends Page
+class SearchPage extends Wiki
 {
     var $tags = array();    
     
-    public function __construct() 
-    {
-        $this->db = new database();
-    }
+   
     
 //================================================         
 //takes a pagename as a parameter
@@ -28,13 +19,13 @@ class SearchPage extends Page
     {
         
         $this->tags = $this->db->getTags();
-        echo '<div><form method="POST">
+        echo '<div id="menusearch"><form method="POST">
             <fieldset>
             <legend>Search page</legend>
             <legend>Tags</legend>
             <input type="hidden" name="page" value="searchresult">';
         
-        foreach ($this->tags as $key => $value)
+        foreach ($this->tags as $value)
         {
             echo '<input type="checkbox" name="tagid[]" value="'.$value["id"].'">'.$value["name"].'</input><br>';
         }   
@@ -49,3 +40,7 @@ class SearchPage extends Page
         $this->searchBox();
     }
 }
+
+
+
+        

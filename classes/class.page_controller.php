@@ -10,9 +10,10 @@ class FonController
     // constructs an instance of the controller class and also creates a database object. (is this the best practice?)    
     public function __construct()
     {
-//	require_once("classes/class.pdo.php");
-//        require_once("classes/class.db.php");
-//        $this->db = new database();
+           require_once("classes/class.login.php");
+           require_once("classes/class.db.php");
+           $this->db = new database();
+           $this->user = new FonLogin($this->db);
     }
     
 //===============================================================
@@ -35,7 +36,7 @@ class FonController
     //this call the show function on the page object created with fonPageController()
     public function fonHandleRequest() 
     {
-        $pagevar = $this->fonGetPage();
+        $pagevar =  $this->fonGetPage();
         $page = $this->fonPageController(htmlspecialchars($pagevar, ENT_QUOTES, "UTF-8"));
         if ($page)
         {
@@ -62,7 +63,7 @@ class FonController
         }
         else
         {
-            return "";
+            return "home";
         }
     }
   
@@ -102,9 +103,11 @@ class FonController
     {
         //the actual switch that will return a page object depending on the $pagevar
         $page = null;
+        session_start();
+
         require_once("classes/class.page.php");
         require_once("classes/class.page.wiki.php");
-        //var_dump($pagevar);
+        require_once("classes/class.page.search.php");
         switch ($pagevar) 
         {
             ########MODEL CODE#######
@@ -121,59 +124,44 @@ class FonController
             
             case "wikipage":
                 require_once("classes/class.page.wiki.wikipage.php");
-                $page = new Wikipage($_GET["id"]);  // this needs to be changed for more security
+                $page = new Wikipage($_GET["id"], $this->db, $this->user);  // this needs to be changed for more security
                 break;
             
             case "searchresult":
                 require_once("classes/class.page.searchresult.php");
                 $array = $_POST["tagid"]; //this needs to be changed for security
-                $page = new Searchresult($array);  
+                $page = new Searchresult($array, $this->db, $this->user);  
                 break;
-            
-            case "promote":
-                require_once("classes/class.page.userpanel.php");
-                $newadmin = $_POST["id"];
-                $page = new Userpanel($newadmin);
-                break;
-            
-            case "register":
-                require_once("classes/class.page.register.php");
-                $page = new Register();
-                break;
-            
-            case "registered":
-                require_once("classes/class.page.registered.php");
-                $username = $_POST["username"];
-                $pw = $_POST["pw"];                
-                $page = new Registered($username,$pw);
-                break;
-            
+                
             case "search":
                 require_once("classes/class.page.search.php");
-                $page = new SearchPage();
+                $page = new SearchPage($this->db, $this->user);
                 break;
             
             case "userpanel":
                 require_once("classes/class.page.userpanel.php");
-                $page = new Userpanel();
+                $page = new Userpanel($this->db, $this->user);
                 break;
-                
-            case "test":                
-                //query the database for an article based upon id
-                require_once("classes/class.page.wiki.test.php"); 
-                $temp = $this->db->selectTest(1);
-                
-                $page = new Test($temp);
+            
+            case "login":
+                require_once("classes/class.page.wiki.login.php");
+                $page = new FonLoginPage($this->db, $this->user);
                 break;
-                            
+            
+            case "editor":
+                require_once("classes/class.page.editor.php");
+                $page = new FonEditorPage("editor", $this->db, $this->user);
+                break;
+            
+            case "logout":
+                $this->user->fonUserLogout();
+                
+            
             case "home":
                 
-            case "":
-                                
             default:
                 include_once("classes/class.page.wiki.home.php");
-                $page = new Home();
-                break;
+                $page = new Home($this->db, $this->user);
         }
         return $page;
     }

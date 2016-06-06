@@ -9,7 +9,7 @@
 
 //================================================
 
-    class Searchresult extends Page
+    class Searchresult extends Wiki
     {
         var $tag = array();
         var $pages = array();
@@ -19,13 +19,13 @@
 //================================================         
     //takes a pagename as a parameter
 
-    public function __construct($tag) 
+    public function __construct($tag, $db, $user) 
     {
         if (true)//(is_array($tag))
         {
             $this->tag = $tag;
-            $this->db = new database();
-            var_dump($this->tag);
+            $this->db = $db;
+            $this->user = $user;
         }
         else
         {
@@ -46,9 +46,9 @@
     //prints list of pages corresponding for each tag for each tag in the tag array
     protected function testContent()
     {
-        foreach($this->tag as $key => $value)
+        foreach($this->tag as $key => $bar)
         {
-            $this->searchPagesOnTags($value);
+            $this->searchPagesOnTags($bar);
             foreach($this->pages as $key => $value)
             {
                 echo '* <a href="?page=wikipage&id='.$value["name"].'">'.$value["name"]."</a><br />";
