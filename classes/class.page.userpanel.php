@@ -49,7 +49,12 @@ class Userpanel extends Page
 
     public function headerContent() 
     { 
-
-        $this->displayUsers();
+        $username = isset($_SESSION["username"]);
+        
+        if (isset($username) && $username !== "")
+        {
+            $this->displayUsers();
+        }
+        
     }
 }
