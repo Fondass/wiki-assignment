@@ -1,3 +1,86 @@
 /*
 */
+#wrapper
+{
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
 
+#menubar 
+{
+    background-color: lightsteelblue;
+    width: 15%;
+    height: 105%;
+    margin-top: -25px;
+    min-width: 225px;
+    max-width: 300px;
+    margin-left: -25px;
+    position: fixed;
+    border-right: solid;
+    border-right-color: lightslategray;
+}
+
+#menuloginsection
+{
+    margin-top:20%;
+    margin-left: 20%;
+}
+
+#maincontent
+{
+    margin-left: 300px;
+}
+
+.menubutton
+{
+    margin-left: 20%;
+    background-color: powderblue;
+    width: 60%;
+    min-width: 130px;
+    min-height: 50px;
+    margin-top: 5%;
+    height: 7%;
+    position: relative;
+    text-align: center;
+    font-size: 28px;
+    font-style: oblique;
+    border: solid;
+    border-color: lightslategray;
+    border-radius: 30%;
+    line-height: 60px;
+}
+
+#wikigentitle
+{
+    font-size: 60px;
+    margin: auto;
+}
+
+#wikigenfield
+{
+    min-height: 600px;
+}
+
+a
+{
+    text-decoration: none;
+    color: darkblue;
+}
+
+#menusearch
+{
+    margin-left: 20%;
+}
+
+#loggeduser
+{
+    margin-left: 20%;
+    margin-top: 10%;
+}
+
+#logoutbutton
+{
+    margin-left: 20%;
+    margin-bottom: 5%;
+}

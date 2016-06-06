@@ -2,18 +2,16 @@
 
 define("_LOGPATH_", "logs/");
 
-session_start();
+define("PDOdriver", "mysql");
+define("PDOhost", "localhost");
+define("PDOuser", "sybren");
+define("PDOpass", "103225");
+define("PDOdatabase", "wiki");
+
 
 require_once("classes/class.debug.php");
-require_once("classes/class.pdo.php");
 include("classes/class.page_controller.php");
-
-
-
-//$database = new "";
-
-
-
+require_once("classes/class.pdo.php");
 
 $myController = new FonController();
 
