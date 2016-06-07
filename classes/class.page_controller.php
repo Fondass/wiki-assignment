@@ -135,7 +135,7 @@ class FonController
                 require_once("classes/class.page.searchresult.php");
                 if (isset($_POST["tagid"]))
                 {
-                    $array = htmlspecialchars($_POST["tagid"], ENT_QUOTES, "UTF-8"); 
+                    $array = $_POST["tagid"]; 
                 }
                 else
                 {
