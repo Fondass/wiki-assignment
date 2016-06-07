@@ -117,19 +117,15 @@ class FonController
             #    break;
             #########################
             
-        
-        //  case "editor":
-        //  case "search":
-        //  case "login":
-            
             case "wikipage":
                 require_once("classes/class.page.wiki.wikipage.php");
-                $page = new Wikipage($_GET["id"], $this->db, $this->user);  // this needs to be changed for more security
+                $id = strip_tags(htmlspecialchars($_GET["id"], ENT_QUOTES, "UTF-8"));
+                $page = new Wikipage($id, $this->db, $this->user);  // this needs to be changed for more security
                 break;
             
             case "searchresult":
                 require_once("classes/class.page.searchresult.php");
-                $array = $_POST["tagid"]; //this needs to be changed for security
+                $array = $_POST["tagid"]; //this is an array of ints. If will be checked for injection later on, although it is already quite safe as is
                 $page = new Searchresult($array, $this->db, $this->user);  
                 break;
                 
@@ -141,6 +137,12 @@ class FonController
             case "userpanel":
                 require_once("classes/class.page.userpanel.php");
                 $page = new Userpanel($this->db, $this->user);
+                break;
+            
+            case "promote":
+                require_once("classes/class.page.userpanel.php");
+                $newadmin = strip_tags(htmlspecialchars($_POST["id"], ENT_QUOTES, "UTF-8"));
+                $page = new Userpanel($this->db, $this->user, $newadmin);
                 break;
             
             case "login":
@@ -155,7 +157,6 @@ class FonController
             
             case "logout":
                 $this->user->fonUserLogout();
-                
             
             case "home":
                 
