@@ -12,6 +12,7 @@ class FonController
     {
            require_once("classes/class.login.php");
            require_once("classes/class.db.php");
+           require_once("classes/class.debug.php");
            $this->db = new database();
            $this->user = new FonLogin($this->db);
     }
@@ -117,15 +118,29 @@ class FonController
             #    break;
             #########################
             
+
             case "wikipage":
                 require_once("classes/class.page.wiki.wikipage.php");
                 $id = strip_tags(htmlspecialchars($_GET["id"], ENT_QUOTES, "UTF-8"));
-                $page = new Wikipage($id, $this->db, $this->user);  // this needs to be changed for more security
+                $page = new Wikipage($id, $this->db, $this->user);  
+                break;
+            
+            case "promote":
+                require_once("classes/class.page.userpanel.php");
+                $newadmin = strip_tags(htmlspecialchars($_POST["id"], ENT_QUOTES, "UTF-8"));
+                $page = new Userpanel($this->db, $this->user, $newadmin);
                 break;
             
             case "searchresult":
                 require_once("classes/class.page.searchresult.php");
-                $array = $_POST["tagid"]; //this is an array of ints. If will be checked for injection later on, although it is already quite safe as is
+                if (isset($_POST["tagid"]))
+                {
+                    $array = htmlspecialchars($_POST["tagid"], ENT_QUOTES, "UTF-8"); 
+                }
+                else
+                {
+                    $array = "";
+                }
                 $page = new Searchresult($array, $this->db, $this->user);  
                 break;
                 
@@ -139,12 +154,6 @@ class FonController
                 $page = new Userpanel($this->db, $this->user);
                 break;
             
-            case "promote":
-                require_once("classes/class.page.userpanel.php");
-                $newadmin = strip_tags(htmlspecialchars($_POST["id"], ENT_QUOTES, "UTF-8"));
-                $page = new Userpanel($this->db, $this->user, $newadmin);
-                break;
-            
             case "login":
                 require_once("classes/class.page.wiki.login.php");
                 $page = new FonLoginPage($this->db, $this->user);
@@ -155,8 +164,15 @@ class FonController
                 $page = new FonEditorPage("editor", $this->db, $this->user);
                 break;
             
+            case "register":
+                require_once("classes/class.page.wiki.register.php");
+                $page = new Register($this->db, $this->user);
+                break;
+            
+            
             case "logout":
                 $this->user->fonUserLogout();
+                
             
             case "home":
                 
