@@ -15,7 +15,7 @@ class FonEditorPage extends Wikipage
     
     
     protected function fonCreatePageForm()
-    {
+        {
         echo '<div><form method="POST">
             <fieldset>
             <legend>Edit wiki page</legend>
@@ -23,13 +23,24 @@ class FonEditorPage extends Wikipage
             Page editor<br>
             <textarea style="width:70%; height:500px;" name="pageeditor"></textarea>
             <fieldset style="display:inline-block; float:right; margin-right:15%; margin-top:-0.3%;">
-            <legend>Search tags</legend>
-            <input type="checkbox" name="tag[]" value="1"> Magic<br>
-            <input type="checkbox" name="tag[]" value="2"> Swords<br>
-            <input type="checkbox" name="tag[]" value="3"> Monsters<br>
-            <input type="checkbox" name="tag[]" value="4"> Siege Engines<br>
-            <input type="checkbox" name="tag[]" value="5"> Kingdoms<br>
-            </fieldset>
+            <legend>Search tags</legend>';
+        
+        $this->tags = $this->db->getTags();
+            
+        foreach ($this->tags as $value)
+        {
+            echo '<input type="checkbox" name="tagid[]" value="'.$value["id"].'">'.$value["name"].'</input><br>';
+        } 
+
+            //<input type="checkbox" name="tag[]" value="1"> Magic<br>
+            //<input type="checkbox" name="tag[]" value="2"> Swords<br>
+            //<input type="checkbox" name="tag[]" value="3"> Monsters<br>
+            //<input type="checkbox" name="tag[]" value="4"> Siege Engines<br>
+            //<input type="checkbox" name="tag[]" value="5"> Kingdoms<br>
+            
+
+
+        echo '</fieldset>
             <input type="submit" name="submitnewpage" value="Commit">
             </form></div>'; 
     }
