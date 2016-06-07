@@ -34,45 +34,24 @@ class database
              * the pages and pages_tags table.
              */
             
-            $sql= 'SELECT id FROM users WHERE name = ""'.$_SESSION["username"].'"';
-            $result= PDODAO::getDataArray($sql);
             
-            $user_id = $result[0];
+            $user_id = "";
             
             $sql= 'INSERT INTO pages (name, content, users_id) VALUES
                  ("'.$title.'", "'.$content.'", "'.$user_id.'");';
             PDODAO::doInsertQuery($sql);
-                    var_dump($sql);
             
-                    $sql= 'SELECT id FROM pages WHERE name="'.$title.'"';
-                    var_dump($sql);
+            $sql= 'SELECT id FROM pages WHERE name="'.$title.'"';
             $statement = PDODAO::prepareStatement($sql);
             $result = PDODAO::getArray($statement);
             
             foreach ($tags as $value)
             {
                 $sql= 'INSERT INTO pages_tags (pages_id, tags_id) VALUES ('.$result[0].', '.$value.')';
-                    var_dump($sql);
                 PDODAO::doInsertQuery($sql);
             }
         }
         
-        
-//=============================================
-    
-    public function getUserPermission()
-    {
-        $username = isset($_SESSION["username"]);
-
-        if (isset($username) && $username !== "")
-        {
-            $sql = 'SELECT permission FROM users WHERE name="'.$username.'"';
-            $result = PDODAO::getDataArray($sql);
-
-            return $result;
-        }
-    }
-    
 //=============================================
 
         public function fonSaveExistingPageToDatabase($title, $content, $tags, $id)
@@ -159,23 +138,32 @@ class database
         
         
         
-        // a function that selects an article in the database based upon it's name.
-        // there may be a better pdodao:: function to do this than getArrays (replaced with getArray)
+    // a function that selects an article in the database based upon it's name.
+    // there may be a better pdodao:: function to do this than getArrays (replaced with getArray)
         public function selectPagesName($name)
         {
-            $sql = 'SELECT * FROM pages JOIN pages_tags ON pages.id = pages_tags.pages_id JOIN tags ON pages_tags.tags_id = tags.id WHERE pages.name = "'.$name.'"';
+            $sql = 'SELECT * FROM pages JOIN pages_tags ON pages.id = pages_tags.pages_id WHERE pages.name = "'.$name.'"';
             return PDODAO::getDataArrays($sql);
         }
         
 //=============================================
     
-        // a test function that selects an article in the database based upon id.
-        function selectTest($id)
+    // a test function that selects an article in the database based upon id.
+    function selectTest($id)
 	{
 		$sql = "SELECT * FROM pages WHERE id = ".$id;
 		$statement = PDODAO::prepareStatement($sql);
 		return PDODAO::getArrays($statement);
 	}
+        
+//=============================================        
+        
+    public function fonSelectPagesOnName($name)
+    {
+       $sql = 'SELECT * FROM pages WHERE name="'.$name.'"';
+        return PDODAO::getDataArray($sql);
+    }
+        
 //=============================================
         
         public function fonPageOwnerIsAdmin($pagename)
@@ -213,33 +201,16 @@ class database
         
         public function fonGetTagsOnPage($pageid)
         {
-            $sql = 'SELECT tags_id FROM pages_tags WHERE pages_id='.$pageid.'';
+            $sql = 'SELECT tags_id FROM pages_tags WHERE pages_id="'.$pageid.'"';
             $statement = PDODAO::prepareStatement($sql);
             
             $result = PDODAO::getArrays($statement);
             
             foreach ($result as $value)
             {
-                $arrays[]=$value[0];
+                $results[]=$value[0];
             }
-            
-            return $arrays;    
-        }
-        
-//=============================================
-    
-        public function saveNewUser($newuser, $newpass)
-        {
-            $sql = 'INSERT INTO `users`(`name`, `password`, `permission`) VALUES ("'.$newuser.'","'.$newpass.'",1)';
-            return PDODAO::doInsertQuery($sql);
-        }
-    
-//=============================================
-        
-        public function makeAdmin($id)
-        {
-            $sql = 'UPDATE users SET permission = 2 WHERE id = "'.$id.'"';
-            return PDODAO::doUpdateQuery($sql);
+            return $results;    
         }
         
 //=============================================
@@ -257,18 +228,27 @@ class database
         }
 
 //=============================================
-        public function getRegularUsers()
-        {
-            $sql = 'SELECT * FROM users WHERE permission = 1';
-            return PDODAO::getDataArrays($sql);
-        }
+	    public function getRegularUsers()
+	    {
+	        $sql = 'SELECT * FROM users WHERE permission = 1';
+	        return PDODAO::getDataArrays($sql);
+	    }
 	
 //=============================================
 	
-        public function getAdminUsers()
-        {
-            $sql = 'SELECT * FROM users WHERE permission = 2';
-            return PDODAO::getDataArrays($sql);
-        }        
+	    public function getAdminUsers()
+	    {
+	        $sql = 'SELECT * FROM users WHERE permission = 2';
+	        return PDODAO::getDataArrays($sql);
+	    } 
+            
+//=============================================            
+                     
+            public function saveNewUser($newuser, $newpass)
+	    {
+	        $sql = 'INSERT INTO users(name, password, permission) 
+                    VALUES ("'.$newuser.'","'.$newpass.'",1)';
+	        PDODAO::doInsertQuery($sql);
+	    }
         
 }
