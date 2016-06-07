@@ -4,6 +4,7 @@ require_once ("class.page.wiki.wikipage.php");
 require_once ("class.debug.php");
 
 
+
 class FonEditorPage extends Wikipage
 {
     
@@ -15,32 +16,26 @@ class FonEditorPage extends Wikipage
     
     
     protected function fonCreatePageForm()
-        {
+    {
         echo '<div><form method="POST">
             <fieldset>
             <legend>Edit wiki page</legend>
-            <input style="width:30%; heigth:50px; font-size:30px" type="text" name="wikititle" placeholder="Wiki Page Tittle"><br>
+            <input style="width:30%; heigth:50px; font-size:30px" 
+            type="text" name="wikititle" placeholder="Wiki Page Tittle" required ><br>
             Page editor<br>
-            <textarea style="width:70%; height:500px;" name="pageeditor"></textarea>
+            <textarea style="width:70%; height:500px;" name="pageeditor" required ></textarea>
             <fieldset style="display:inline-block; float:right; margin-right:15%; margin-top:-0.3%;">
             <legend>Search tags</legend>';
         
         $this->tags = $this->db->getTags();
-            
-        foreach ($this->tags as $value)
-        {
-            echo '<input type="checkbox" name="tagid[]" value="'.$value["id"].'">'.$value["name"].'</input><br>';
-        } 
+             
+         foreach ($this->tags as $value)
+         {
+             echo '<input type="checkbox" name="tagid[]" 
+                 value="'.$value["id"].'">'.$value["name"].'</input><br>';
+         } 
 
-            //<input type="checkbox" name="tag[]" value="1"> Magic<br>
-            //<input type="checkbox" name="tag[]" value="2"> Swords<br>
-            //<input type="checkbox" name="tag[]" value="3"> Monsters<br>
-            //<input type="checkbox" name="tag[]" value="4"> Siege Engines<br>
-            //<input type="checkbox" name="tag[]" value="5"> Kingdoms<br>
-            
-
-
-        echo '</fieldset>
+         echo '</fieldset>
             <input type="submit" name="submitnewpage" value="Commit">
             </form></div>'; 
     }
@@ -53,30 +48,35 @@ class FonEditorPage extends Wikipage
     
     public function bodyContent()
     {
-        if (isset($this->pagename) && $this->pagename !== "editor")
+        
+        if (isset($_GET["id"]))
         {
-            if (1 == 1) // ($this->user->fonLoggedUser())
+            $getpage = htmlspecialchars($_GET["id"], ENT_QUOTES, "UTF-8");
+            if ($this->user->fonLoggedUser())
             {
-                $opUser = $this->db->selectPagesName($this->pagename);
-                
-                if ( 1 == 1)    // ($opUser[3] === $this->db->fonGetActiveUserId())
+
+                $opUser = $this->db->fonSelectPagesOnName($getpage);
+
+                if ($opUser[3] === $this->db->fonGetActiveUserId())
                 {
                     if (!isset($_POST["submitexistingpage"]))
                     {
-                        $this->fonEditPageForm($this->pagename);
+                        $this->fonEditPageForm($getpage);
                     }
                     else
                     {
                         $this->fonEditPageFormFilled();
                     } 
                 }
-                elseif ($this->db->fonGetPermission() === 2)
+                
+                elseif ($this->db->fonGetPermission() == 2)
                 {
-                    if ($this->db->fonPageOwnerIsAdmin() === false)
+
+                    if ($this->db->fonPageOwnerIsAdmin($getpage) === false)
                     {
                         if (!isset($_POST["submitexistingpage"]))
                         {
-                            $this->fonEditPageForm($this->pagename);
+                            $this->fonEditPageForm($getpage);
                         }
                         else
                         {
@@ -100,7 +100,7 @@ class FonEditorPage extends Wikipage
         }
         else
         {
-            if (1 == 1)    // ($this->user->fonLoggedUser())
+            if ($this->user->fonLoggedUser())
             {
                 if (!isset($_POST["submitnewpage"]))
                 {
@@ -160,7 +160,7 @@ class FonEditorPage extends Wikipage
     protected function fonEditPageForm($pagename)
     {
         
-        $page = $this->db->selectPagesName($pagename);
+        $page = $this->db->fonSelectPagesOnName(htmlspecialchars($pagename, ENT_QUOTES, "UTF-8"));
         
         $title = $page[1];
         $content = $page[2];
