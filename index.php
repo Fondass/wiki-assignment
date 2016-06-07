@@ -3,10 +3,10 @@
 define("_LOGPATH_", "logs/");
 
 define("PDOdriver", "mysql");
-define("PDOhost", "localhost");
-define("PDOuser", "sybren");
-define("PDOpass", "103225");
-define("PDOdatabase", "wiki");
+define("PDOhost", "fdb15.freehostingeu.com");
+define("PDOuser", "2144003_wiki");
+define("PDOpass", "H8l711t99a");
+define("PDOdatabase", "2144003_wiki");
 
 
 require_once("classes/class.debug.php");
