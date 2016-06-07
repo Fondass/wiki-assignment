@@ -38,11 +38,15 @@
             protected function wikiContent()
             {
                 $this->wikipage = $this->db->selectPagesName($this->pagename);
-
+                
                 echo '<fieldset id="wikigenfield"><legend>
-                    <h3 id="wikigentitle">'.$this->wikipage[0][1].'</h3></legend>
+                    <h3 id="wikigentitle">'.$this->wikipage[0]["name"].'</h3></legend>
                     <p id="wikigencontent">'.$this->wikipage[0]["content"].'
-                    </p></fieldset><p id="wikigentags"></p>';
+                    </p>
+                    <form method="POST" action="index.php?page=editor&id='.$this->pagename.'">
+                    <input type="submit" name="editbutton" value="Edit">
+                    </form></fieldset> 
+                    <p id="wikigentags"></p>';
                 
 
                 
@@ -52,13 +56,12 @@
                 echo "<br />Page content: ".$this->wikipage[0]['content'];
                 echo "<br />Creator id: ".$this->wikipage[0]['users_id'];
                 echo "<br />Tag id's: ";
-                */
                 
                 foreach ($this->wikipage as $value)
                 {
-                    echo $value[10]." - ";
+                    echo $value['tags_id']." ";
                 }
-                
+                */
             }
 
 //===================================================
