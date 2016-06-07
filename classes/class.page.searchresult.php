@@ -46,13 +46,26 @@
     //prints list of pages corresponding for each tag for each tag in the tag array
     protected function testContent()
     {
-        foreach($this->tag as $key => $bar)
+        $pages = array();
+        
+        foreach($this->tag as $foo => $bar)
         {
+            $bar = strip_tags(htmlspecialchars($bar, ENT_QUOTES, "UTF-8"));
             $this->searchPagesOnTags($bar);
             foreach($this->pages as $key => $value)
             {
-                echo '* <a href="?page=wikipage&id='.$value["name"].'">'.$value["name"]."</a><br />";
+                $pages[] = $value["name"];
+                //echo '* <a href="?page=wikipage&id='.$value["name"].'">'.$value["name"]."</a><br />";
             }
+        }
+        
+        $newpages = array_merge(array_flip(array_flip($pages)));
+
+        Debug::writeToLogFile("you just preformed a search");
+        
+        foreach ($newpages as $key => $value)
+        {
+            echo '* <a href="?page=wikipage&id='.$value.'">'.$value."</a><br />";
         }
     }
 //================================================         
