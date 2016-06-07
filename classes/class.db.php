@@ -54,6 +54,14 @@ class database
         
 //=============================================
 
+	public function saveNewUser($newuser, $newpass)
+	    {
+	        $sql = 'INSERT INTO `users`(`name`, `password`, `permission`) VALUES ("'.$newuser.'","'.$newpass.'",1)';
+	        return PDODAO::doInsertQuery($sql);
+	    }
+    
+//=============================================    
+
         public function fonSaveExistingPageToDatabase($title, $content, $tags, $id)
         {
             $sql= 'UPDATE pages SET name="'.$title.'", content="'.$content.'" 
