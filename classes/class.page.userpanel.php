@@ -1,5 +1,6 @@
 <?php
 	
+	//this is way too much requires
 require_once("class.page.php");
 require_once("class.db.php");
 require_once("class.page.wiki.wikipage.php");
