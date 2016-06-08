@@ -35,14 +35,15 @@ class Wiki extends Page
 
     function endHeader()
     { 
-        echo "</head> \r"; 
+        echo "</head>"; 
     }
 
     function beginBody() 
     {
         
         echo '<body><div id="wrapper">
-                <div id="menubar">';
+                <div id="menubar">
+                <div id=menutopwrapper>';
         
         if ($this->user->fonLoggedUser())
         {
@@ -52,20 +53,21 @@ class Wiki extends Page
         }
         else
         {
-            echo '
-                <form id="menuloginsection" method="POST" action="index.php?page=login">
+            echo '<form id="menuloginsection" method="POST" action="index.php?page=login">
                 <legend>User Login</legend>
                 <input type="text" name="usernamefield" placeholder="Username" required>
                 <br>
-                <input type="text" name="passwordfield" placeholder="Password" required>
+                <input type="password" name="passwordfield" placeholder="Password" required>
                 <br>
                 <input type="submit" name="loginsubmit" value="Login">
                 </form>';
         }
+        echo '</div>';
+
+        $thing = new SearchPage($this->db, $this->user);
+        $thing->searchBox();
             
             
-            $thing = new SearchPage($this->db, $this->user);
-            $thing->searchBox();
 
         echo '<a href="index.php?page=home">
             <div class="menubutton" id="homebutton">Home</div></a>
@@ -74,16 +76,24 @@ class Wiki extends Page
             <div class="menubutton" id="usersbutton">Users</div></a>
             
             <a href="index.php?page=wikipage&id=info">
-            <div class="menubutton" id="infobutton">Info</div></a>
-
-            <a href="index.php?page=register">
-            <div class="menubutton" id="regbutton">Register</div></a>
+            <div class="menubutton" id="infobutton">Info</div></a>';
+        
+        if ($this->user->fonLoggedUser())
+        {
+            echo '<div class="menubutton" id="regbuttonoff">Register</div></a>';
+        }
+        else
+        {
+            echo '<a href="index.php?page=register">
+            <div class="menubutton" id="regbutton">Register</div></a>';
+        }
+       
             
-            <a href="index.php?page=editor">
-            <div class="menubutton" id="editbutton">Editor</div></a>
+            echo '<a href="index.php?page=editor">
+               <div class="menubutton" id="editbutton">Editor</div></a>
 
-            </div><div id=maincontent>
-            '; 
+               </div><div id=maincontent>
+               '; 
     }
 
     function bodyContent() 
