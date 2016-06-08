@@ -17,7 +17,8 @@ class FonEditorPage extends Wikipage
     
     protected function fonCreatePageForm()
     {
-        echo '<div><form method="POST">
+        echo '<script type="text/javascript" src="javascript/popup.js"></script>
+            <div><form method="POST">
             <fieldset>
             <legend>Edit wiki page</legend>
             <input style="width:30%; heigth:50px; font-size:30px" 
@@ -31,7 +32,7 @@ class FonEditorPage extends Wikipage
              
          foreach ($this->tags as $value)
          {
-             echo '<input type="checkbox" name="tagid[]" 
+             echo '<input type="checkbox" name="tag[]" 
                  value="'.$value["id"].'">'.$value["name"].'</input><br>';
          } 
 
@@ -138,7 +139,17 @@ class FonEditorPage extends Wikipage
         echo "Your page edit has succsesfully evaded the content police and is now
             being updated on the wiki"; 
         
-        $tags = $_POST["tag"];
+        if (isset($_POST["tag"]))
+        {
+            $tags = $_POST["tag"];
+        }
+        else
+        {
+            $tags[0] = 1;
+        }
+        
+        
+        
         $title = htmlspecialchars($_POST["wikititle"], ENT_QUOTES, "UTF-8"); 
         $content = htmlspecialchars($_POST["pageeditor"], ENT_QUOTES, "UTF-8");
         
@@ -170,7 +181,8 @@ class FonEditorPage extends Wikipage
         $validtags = $this->db->fonGetTagsOnPage($id);
         
             
-        echo '<div><form method="POST">
+        echo '<script type="text/javascript" src="javascript/popup.js"></script>
+            <div><form method="POST">
             <fieldset>
             <legend>Edit wiki page</legend>
             <input style="width:30%; heigth:50px; font-size:30px" type="text" name="wikititle" value="'.$title.'"><br>
@@ -204,14 +216,22 @@ class FonEditorPage extends Wikipage
         echo "Your page edit has succsesfully evaded the content police and is now
             being updated on the wiki"; 
         
-        $tags = $_POST["tag"];
+        if (isset($_POST["tag"]))
+        {
+            $tags = $_POST["tag"];
+        }
+        else
+        {
+            $tags[0] = 1;
+        }
+        
         $title = htmlspecialchars($_POST["wikititle"], ENT_QUOTES, "UTF-8"); 
         $content = htmlspecialchars($_POST["pageeditor"], ENT_QUOTES, "UTF-8");
         $id = htmlspecialchars($_POST["pageid"], ENT_QUOTES, "UTF-8");
 
-       $this->fonArrayScrambler($tags);
+        $this->fonArrayScrambler($tags);
 
-       $this->db->fonSaveExistingPageToDatabase($title, $content, $tags, $id);
+        $this->db->fonSaveExistingPageToDatabase($title, $content, $tags, $id);
     }  
 }
 
