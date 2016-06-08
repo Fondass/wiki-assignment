@@ -180,6 +180,6 @@ class FonController
                 include_once("classes/class.page.wiki.home.php");
                 $page = new Home($this->db, $this->user);
         }
-        return $page;
+        return $page; 
     }
 }
