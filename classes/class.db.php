@@ -34,7 +34,7 @@ class database
              * the pages and pages_tags table.
              */
             
-            $sql= 'SELECT id FROM users WHERE name = ""'.$_SESSION["username"].'"';
+            $sql= 'SELECT id FROM users WHERE name = "'.$_SESSION["username"].'"';
             $result= PDODAO::getDataArray($sql);
             
             $user_id = $result[0];
@@ -52,13 +52,14 @@ class database
                 $sql= 'INSERT INTO pages_tags (pages_id, tags_id) VALUES ('.$result2[0].', '.$value.')';
                 PDODAO::doInsertQuery($sql);
             }
-        }
+        } //  year - month - day     hour : minutes : seconds
         
 //=============================================
 
         public function fonSaveExistingPageToDatabase($title, $content, $tags, $id)
         {
-            $sql= 'UPDATE pages SET name="'.$title.'", content="'.$content.'" 
+            $sql= 'UPDATE pages 
+                SET name="'.$title.'", content="'.$content.'", lastedit="'.date('Y-m-d G:i:s').'" 
                 WHERE id='.$id.';';
             PDODAO::doUpdateQuery($sql);
             
@@ -72,6 +73,7 @@ class database
             }
         }
         
+    // date('Y-m-d G:i:s');
            
 //=============================================
     
