@@ -38,13 +38,44 @@ class Register extends Wiki
     }
     
     
-    protected function saveUserData()
+//    protected function saveUserData()
+//    {
+//        
+//        $usern = htmlspecialchars($_POST["regusername"], ENT_QUOTES, "UTF-8");
+//        $pasw = htmlspecialchars($_POST["regpw"], ENT_QUOTES, "UTF-8");
+//        
+//        $this->db->saveNewUser($usern, $pasw);
+//    }
+    
+    //=========================================
+    
+    function makeSalt()
     {
-        
-        $usern = htmlspecialchars($_POST["regusername"], ENT_QUOTES, "UTF-8");
-        $pasw = htmlspecialchars($_POST["regpw"], ENT_QUOTES, "UTF-8");
-        
-        $this->db->saveNewUser($usern, $pasw);
+        $salt = mcrypt_create_iv(32);
+        if ($salt == true)
+        {
+            return $salt;
+        }
+        else
+        {
+            return null;
+        }
+    }
+    
+    //=========================================
+    
+    function saveUserData()
+    {
+        $salt = $this->makeSalt();
+                
+        if (is_string($salt))
+        {
+            $usern = htmlspecialchars($_POST["regusername"], ENT_QUOTES, "UTF-8");
+            $pasw = htmlspecialchars($_POST["regpw"], ENT_QUOTES, "UTF-8");
+            $pasw .= $salt;
+            $pasw = hash("sha256",$pasw);
+            $this->db->saveNewUser($usern, $pasw, $salt);
+        }
     }
     
     //=========================================
