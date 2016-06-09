@@ -133,6 +133,10 @@ class FonController
             
             case "searchresult":
                 require_once("classes/class.page.searchresult.php");
+                if (isset($_POST["title"]))
+                {
+                    $title = $_POST["title"];
+                }
                 if (isset($_POST["tagid"]))
                 {
                     $array = $_POST["tagid"]; 
@@ -141,7 +145,15 @@ class FonController
                 {
                     $array = "";
                 }
-                $page = new Searchresult($array, $this->db, $this->user);  
+                
+                if (isset($_POST["title"]))
+                {
+                    $page = new Searchresult($array, $this->db, $this->user, $title);
+                }
+                else
+                {
+                    $page = new Searchresult($array, $this->db, $this->user);
+                }
                 break;
                 
             case "search":
@@ -172,7 +184,7 @@ class FonController
             
             case "logout":
                 $this->user->fonUserLogout();
-                break;
+                
             
             case "home":
                 
