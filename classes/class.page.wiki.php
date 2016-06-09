@@ -69,7 +69,7 @@ include('classes/class.search.php');
         echo '</div>';
 
         $thing = new SearchPage($this->db, $this->user);
-        $thing->searchBox();
+        $thing->search->searchBox($this->db);
             
             
 
