@@ -7,7 +7,7 @@
     width: 100%;
 }
 
-h3
+#registerheader
 {
     padding: 0px;
     margin: 0px;
@@ -17,6 +17,18 @@ p
 {
     padding: 0px;
     margin: 0px;
+}
+
+#wikiimage
+{
+    max-width: 200px;
+    max-height: 300px;
+}
+
+#editorfield
+{
+    width: 70%;
+    height: 500px;
 }
 
 
