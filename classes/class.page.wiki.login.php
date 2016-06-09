@@ -54,24 +54,16 @@ class FonLoginPage extends Wiki
     {
         if ($_SERVER["REQUEST_METHOD"] === "GET" && $this->user->fonLoggedUser() === true)
         {
-            // activates when a user visist the login page when already logged in
-            
-            echo '<p>Welcome Back pall<p>';
+            echo '<p> Welcome Back pall<p>';
         }
         
         elseif ($_SERVER["REQUEST_METHOD"] === "POST" && $this->user->fonUserCheck() === true)
         {
-            // Activates when a user logs in from logged out state.
-            
-            echo "<meta http-equiv='refresh' content='0'>";
-            
+            echo 'Welcome Back bud';
         }
         
         elseif ($_SERVER["REQUEST_METHOD"] === "POST" && $this->user->fonUserCheck() !== true)
         {
-            // activates when a user tries to log in from a logged out state but fails the
-            // fonUserCheck(), and thus, provided wrong login credentials.
-            
             echo 'The princess is in another castle';
         }
         
@@ -81,13 +73,3 @@ class FonLoginPage extends Wiki
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
