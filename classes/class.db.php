@@ -52,14 +52,13 @@ class database
                 $sql= 'INSERT INTO pages_tags (pages_id, tags_id) VALUES ('.$result2[0].', '.$value.')';
                 PDODAO::doInsertQuery($sql);
             }
-        } //  year - month - day     hour : minutes : seconds
+        }
         
 //=============================================
 
         public function fonSaveExistingPageToDatabase($title, $content, $tags, $id)
         {
-            $sql= 'UPDATE pages 
-                SET name="'.$title.'", content="'.$content.'", lastedit="'.date('Y-m-d G:i:s').'" 
+            $sql= 'UPDATE pages SET name="'.$title.'", content="'.$content.'" 
                 WHERE id='.$id.';';
             PDODAO::doUpdateQuery($sql);
             
@@ -73,7 +72,6 @@ class database
             }
         }
         
-    // date('Y-m-d G:i:s');
            
 //=============================================
     
@@ -120,14 +118,17 @@ class database
         
         public function getUserPermission()
         {
-            $username = isset($_SESSION["username"]);
+            $username = $_SESSION["username"];
  
             if (isset($username) && $username !== "")
             {
                 $sql = 'SELECT permission FROM users WHERE name="'.$username.'"';
                 $result = PDODAO::getDataArray($sql);
-
-                return $result;
+                //var_dump($sql);
+                //var_dump($result);
+                $int = $result[0];
+                //var_dump($int);
+                return $int;
             }
         }
         
@@ -236,7 +237,7 @@ class database
         }
         
 //=============================================
-        public function selectPagesOnTag($tag)
+        public function selectPagesOnTag($sql)
         {
             #####this is if you want to accept a tagname instead of a tagid#####
             #$sql = 'SELECT id FROM tags WHERE name = "'.$tag.'"';
@@ -244,7 +245,7 @@ class database
             #$tagids PDODAO::getArray($statement);
             ####################################################################
 
-            $sql = 'SELECT * FROM pages JOIN pages_tags ON pages.id = pages_tags.pages_id WHERE pages_tags.tags_id = '.$tag;
+            //$sql = 'SELECT * FROM pages JOIN pages_tags ON pages.id = pages_tags.pages_id WHERE pages_tags.tags_id = '.$tag;
             //$statement = PDODAO::prepareStatement($sql);
             return PDODAO::getDataArrays($sql);
         }
@@ -262,14 +263,13 @@ class database
 	    {
 	        $sql = 'SELECT * FROM users WHERE permission = 2';
 	        return PDODAO::getDataArrays($sql);
-	    } 
+	    }
             
 //=============================================            
                      
-            public function saveNewUser($newuser, $newpass)
+            public function saveNewUser($newuser, $newpass, $salt)
 	    {
-	        $sql = 'INSERT INTO users(name, password, permission) 
-                    VALUES ("'.$newuser.'","'.$newpass.'",1)';
+	        $sql = 'INSERT INTO users(name, password, permission, salt) VALUES ("'.$newuser.'","'.$newpass.'",1, "'.$salt.'")';
 	        PDODAO::doInsertQuery($sql);
 	    }
 //=============================================           
@@ -281,7 +281,13 @@ class database
             }
             
 //=============================================
-
+            public function getSalt($name)
+            {
+                $sql = 'SELECT salt FROM users WHERE name = "'.$name.'"';
+                $result = PDODAO::getDataArray($sql);
+                echo $result['salt'];
+                return $result['salt'];
+            }
             
 //=============================================
 
