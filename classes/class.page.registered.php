@@ -20,9 +20,29 @@ class Registered extends Page
     
     //=========================================
     
+    function makeSalt()
+    {
+        $salt = mcrypt_create_iv(12);
+        if ($salt == true)
+        {
+            return $salt;
+        }
+        else
+        {
+            return null;
+        }
+    }
+    
+    //=========================================
+    
     function saveUserData()
     {
-        $result = $this->db->saveNewUser($this->user, $this->pass);
+        $salt = $this->makeSalt();
+        if ($salt == true)
+        {
+            $result = $this->db->saveNewUser($this->user, $this->pass, $salt);
+        }
+        
     }
     
     //=========================================
