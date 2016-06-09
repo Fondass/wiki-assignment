@@ -24,7 +24,7 @@ class FonEditorPage extends Wikipage
             <input style="width:30%; heigth:50px; font-size:30px" 
             type="text" name="wikititle" placeholder="Wiki Page Tittle" required ><br>
             Page editor<br>
-            <textarea style="width:70%; height:500px;" name="pageeditor" required ></textarea>
+            <textarea name="pageeditor" id="editorfield" required ></textarea>
             <fieldset style="display:inline-block; float:right; margin-right:15%; margin-top:-0.3%;">
             <legend>Search tags</legend>';
         
@@ -37,6 +37,7 @@ class FonEditorPage extends Wikipage
          } 
 
          echo '</fieldset>
+             '.$this->buttons->fonInputButtonMenu().'
             <input type="submit" name="submitnewpage" value="Commit">
             </form></div>'; 
     }
@@ -182,12 +183,13 @@ class FonEditorPage extends Wikipage
         
             
         echo '<script type="text/javascript" src="javascript/popup.js"></script>
+            
             <div><form method="POST">
             <fieldset>
             <legend>Edit wiki page</legend>
             <input style="width:30%; heigth:50px; font-size:30px" type="text" name="wikititle" value="'.$title.'"><br>
             Page editor<br>
-            <textarea style="width:70%; height:500px;" name="pageeditor">'.$content.'</textarea>
+            <textarea id="editorfield" name="pageeditor">'.$content.'</textarea>
             <fieldset style="display:inline-block; float:right; margin-right:15%; margin-top:-0.3%;">
             <legend>Search tags</legend>';
             
@@ -206,6 +208,7 @@ class FonEditorPage extends Wikipage
         }
      
         echo '</fieldset>
+            '.$this->buttons->fonInputButtonMenu().'
             <input type="hidden" name="pageid" value='.$id.'>
             <input type="submit" name="submitexistingpage" value="Commit">
             </form></div>';
