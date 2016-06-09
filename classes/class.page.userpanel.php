@@ -43,7 +43,7 @@ class Userpanel extends Wiki
         {
             echo $value['name'];
             
-            if ($this->db->getUserPermission() || 2)
+            if ($this->db->getUserPermission() == 2)
             {
                 $reg = '<form name="promote" action="" method="POST">';
                 $reg .= '<input type="hidden" name="page" value="promote"><input type="hidden" name="id" value="'.$value['id'].'"><input type="submit" name="register" value="Make Admin" /><br />';
