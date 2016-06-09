@@ -93,9 +93,9 @@ class Search
                 $pages[] = $value["name"];
             }
                 
-        //$newpages = array_merge(array_flip(array_flip($pages))); //looks complicated, it makes the array only have unique values
+        $newpages = array_merge(array_flip(array_flip($pages))); //looks complicated, it makes the array only have unique values
 
-        foreach ($pages as $key => $value)
+        foreach ($newpages as $key => $value)
         {
             echo '* <a href="?page=wikipage&id='.$value.'">'.$value."</a><br />";
         }
