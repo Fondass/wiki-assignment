@@ -37,7 +37,11 @@ class FonLogin
         
         if (isset ($_POST["passwordfield"]))
         {
-            $password = $_POST["passwordfield"];
+            $password = htmlspecialchars($_POST["passwordfield"],ENT_QUOTES, "UTF-8");
+            $password .= $this->db->getSalt($username);
+            //var_dump($password);
+            $password = hash("sha256", $password);
+            //var_dump($password);
         }
         
         else
