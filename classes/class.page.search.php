@@ -1,46 +1,25 @@
 <?php
 
-/* 
- * 
- * 
- * 
- */
+require_once('classes/class.search.php');
+
 
 class SearchPage extends Wiki
 {
-    var $tags = array();    
+    var $tags = array();   
+    var $search;
+    var $user;
+    var $db;
+    var $title;
     
-   
-    
-//================================================         
-//takes a pagename as a parameter
-    
-    protected function searchBox()
+    public function __construct($db, $user)
     {
-        
-        $this->tags = $this->db->getTags();
-        echo '<div id="menusearch"><form method="POST">
-            <fieldset>
-            <legend>Search page</legend>
-            <legend>Tags</legend>
-            <input type="hidden" name="page" value="searchresult">';
-        
-        foreach ($this->tags as $value)
-        {
-            echo '<input type="checkbox" name="tagid[]" value="'.$value["id"].'">'.$value["name"].'</input><br>';
-        }   
-
-        echo '</fieldset>
-            <input type="submit" name="submit" value="Commit">
-            </form></div>'; 
+        $this->db = $db;
+        $this->user = $user;
+        $this->search = new Search();
     }
-    
+        
     public function bodyContent()
     {
-        $this->searchBox();
+        $this->search->searchBoxNameTag($this->db);
     }
 }
-
-
-
-        
