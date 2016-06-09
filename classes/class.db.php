@@ -120,7 +120,7 @@ class database
         
         public function getUserPermission()
         {
-            $username = isset($_SESSION["username"]);
+            $username = $_SESSION["username"];
  
             if (isset($username) && $username !== "")
             {
