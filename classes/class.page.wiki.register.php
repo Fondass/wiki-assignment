@@ -19,7 +19,7 @@ class Register extends Wiki
 
     protected function showRegisterForm() 
     { 
-        $reg = '<b>Register</b>';
+        $reg = '<h1>Register</h1>';
 
         $reg .= '<form name="register" action="" method="POST">';
 
