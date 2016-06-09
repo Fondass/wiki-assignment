@@ -127,7 +127,7 @@ class database
                 $sql = 'SELECT permission FROM users WHERE name="'.$username.'"';
                 $result = PDODAO::getDataArray($sql);
 
-                return $result;
+                return $result['permission'];
             }
         }
         
