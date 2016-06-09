@@ -6,9 +6,13 @@
 //include the classes that extend this class
 //include('classes/');
 
-class Wiki extends Page
-{
+include('classes/class.search.php');
 
+ class Wiki extends Page
+ {
+    var $db;
+    var $user;
+	
     public function __construct($db, $user) 
     {
         $this->db = $db;
