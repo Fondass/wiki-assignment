@@ -266,10 +266,9 @@ class database
             
 //=============================================            
                      
-            public function saveNewUser($newuser, $newpass)
+            public function saveNewUser($newuser, $newpass, $salt)
 	    {
-	        $sql = 'INSERT INTO users(name, password, permission) 
-                    VALUES ("'.$newuser.'","'.$newpass.'",1)';
+	        $sql = 'INSERT INTO users(name, password, permission, salt) VALUES ("'.$newuser.'","'.$newpass.'",1, "'.$salt.'")';
 	        PDODAO::doInsertQuery($sql);
 	    }
 //=============================================           
