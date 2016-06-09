@@ -6,6 +6,8 @@
         require_once("class.page.wiki.php");
         require_once("class.db.php");
         require_once("class.login.php");
+        require_once("class.editor.strconverter.php");
+        require_once("class.editor.inputbuttons.php");
 
 
 //================================================
@@ -26,6 +28,8 @@
                     $this->pagename = htmlspecialchars($pagename, ENT_QUOTES, "UTF-8");
                     $this->db = $db;
                     $this->user = $user;
+                    $this->converter = new FonStrConverter();
+                    $this->buttons = new FonInputButtons();
                 }
                 else
                 {
@@ -39,9 +43,13 @@
             {
                 $this->wikipage = $this->db->selectPagesName($this->pagename);
                 
+                
+                $content = $this->converter->fonConverterScrambledToShow($this->wikipage[0]["content"]);
+                
+                
                 echo '<fieldset id="wikigenfield"><legend>
                     <h3 id="wikigentitle">'.$this->wikipage[0][1].'</h3></legend>
-                    <p id="wikigencontent">'.$this->wikipage[0]["content"].'
+                    <p id="wikigencontent">'.$content.'
                     </p>
                     <form method="POST" action="index.php?page=editor&id='.$this->pagename.'">
                     <input type="submit" name="editbutton" value="Edit">
