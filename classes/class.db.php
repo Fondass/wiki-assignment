@@ -236,7 +236,7 @@ class database
         }
         
 //=============================================
-        public function selectPagesOnTag($tag)
+        public function selectPagesOnTag($sql)
         {
             #####this is if you want to accept a tagname instead of a tagid#####
             #$sql = 'SELECT id FROM tags WHERE name = "'.$tag.'"';
@@ -244,7 +244,7 @@ class database
             #$tagids PDODAO::getArray($statement);
             ####################################################################
 
-            $sql = 'SELECT * FROM pages JOIN pages_tags ON pages.id = pages_tags.pages_id WHERE pages_tags.tags_id = '.$tag;
+            //$sql = 'SELECT * FROM pages JOIN pages_tags ON pages.id = pages_tags.pages_id WHERE pages_tags.tags_id = '.$tag;
             //$statement = PDODAO::prepareStatement($sql);
             return PDODAO::getDataArrays($sql);
         }
@@ -281,7 +281,13 @@ class database
             }
             
 //=============================================
-
+	     public function getSalt($name)
+            {
+                $sql = 'SELECT salt FROM users WHERE name = "'.$name.'"';
+                $result = PDODAO::getDataArray($sql);
+                //echo $result['salt'];
+                return $result['salt'];
+            }
             
 //=============================================
 
