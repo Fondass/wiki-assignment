@@ -7,6 +7,19 @@
     width: 100%;
 }
 
+h3
+{
+    padding: 0px;
+    margin: 0px;
+}
+
+p
+{
+    padding: 0px;
+    margin: 0px;
+}
+
+
 #menubar 
 {
     background-color: lightsteelblue;
@@ -26,6 +39,13 @@
     margin-top:20%;
     margin-left: 20%;
     box-sizing: border-box;
+}
+
+#menutopwrapper
+{
+    margin-top: 20px;
+    height: 100px;
+    position: relative;
 }
 
 #maincontent
@@ -52,6 +72,13 @@
     line-height: 60px;
 }
 
+#regbuttonoff
+{
+    background-color: lightslategray;
+}
+
+
+
 #wikigentitle
 {
     font-size: 60px;
@@ -77,7 +104,7 @@ a
 #loggeduser
 {
     margin-left: 20%;
-    margin-top: 10%;
+    margin-top: 20%;
 }
 
 #logoutbutton
