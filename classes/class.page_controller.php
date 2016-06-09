@@ -184,7 +184,7 @@ class FonController
             
             case "logout":
                 $this->user->fonUserLogout();
-                
+                break;
             
             case "home":
                 
