@@ -89,6 +89,7 @@ class FonLogin
     public function fonUserLogout()
     {
         session_destroy();
+        header("location: index.php?page=home");
     }
     
 }
