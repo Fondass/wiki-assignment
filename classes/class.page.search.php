@@ -20,6 +20,6 @@ class SearchPage extends Wiki
         
     public function bodyContent()
     {
-        $this->search->searchBoxNameTag($this->db);
+        $this->search->searchBox($this->db, 'title');
     }
 }
