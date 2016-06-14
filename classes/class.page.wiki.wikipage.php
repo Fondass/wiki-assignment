@@ -8,7 +8,6 @@
         require_once("class.login.php");
         require_once("class.editor.strconverter.php");
         require_once("class.editor.inputbuttons.php");
-        require_once("class.rating.php");
 
 
 //================================================
@@ -31,7 +30,6 @@
                     $this->user = $user;
                     $this->converter = new FonStrConverter();
                     $this->buttons = new FonInputButtons();
-                    $this->rating = new FonRatingSystem($db);
                 }
                 else
                 {
@@ -74,11 +72,6 @@
                     echo $value[10]." - ";
                 }
                 
-                $pageid = $this->wikipage[0][0];
-                
-                echo '<div id="ratingshow"><p id=ratingshowref>'.$this->rating->fonRatingShow($pageid).'</p>/10</div>';
-                echo $this->rating->ratingFormShow($pageid);
-                
             }
 
 //===================================================
@@ -91,3 +84,6 @@
                 }
         }
         
+//below is for testing
+//$pager = new Wikipage("Doritos");
+//$pager->show();
