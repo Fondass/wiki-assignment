@@ -28,7 +28,6 @@ class Search
             $sql .= 'pages_tags.tags_id = '.$key.' AND ';
         }        
         $sql .= 'true';
-        var_dump($sql);
         
         $this->pages = $db->selectPagesOnTag($sql);
         return $this->pages;
@@ -62,8 +61,7 @@ class Search
     }
     
 //================================================
-
-    //searches on name
+//searches on name
 
     protected function searchPagesOnName($db, $name)
     {
@@ -128,16 +126,23 @@ class Search
     }
     
 //================================================         
-    //printsa little searchbox
-    public function searchBox($db)
+    //prints a little searchbox, the $mode parameter can be used to request a certain kind of box. Just a tag search is standard now
+    public function searchBox($db, $mode = false)
     {
         
         $this->tags = $db->getTags();
         echo '<div id="menusearch"><form method="POST">
             <fieldset>
             <legend>Search page</legend>
-            <legend>Tags</legend>
             <input type="hidden" name="page" value="searchresult">';
+            
+        if ($mode = 'title')
+        {
+            echo'<legend>Title</legend>
+                <input type="text" name="title" placeholder="page title"><br /><br />';
+        }
+        
+        echo '<legend>Tags</legend>';
         
         foreach ($this->tags as $value)
         {
@@ -150,7 +155,7 @@ class Search
     }   
     
     //================================================         
-    //printsa little searchbox with namefield
+    //prints a little searchbox with namefield. I am making this function redundant
     public function searchBoxNameTag($db)
     {
         
@@ -158,8 +163,8 @@ class Search
         echo '<div id="menusearch"><form method="POST">
             <fieldset>
             <legend>Search page</legend>
-            <legend>Title</legend>
             <input type="hidden" name="page" value="searchresult">
+            <legend>Title</legend>
             <input type="text" name="title" placeholder="page title"><br /><br />
             <legend>Tags</legend>';
         
@@ -172,5 +177,4 @@ class Search
             <input type="submit" name="submit" value="Commit">
             </form></div>'; 
     } 
-    
 }
