@@ -29,7 +29,10 @@ include('classes/class.search.php');
         echo '<head>
             <meta charset=UTF-8 />
             <meta name="codepedia" content="Netbeans" />
-            <link rel="stylesheet" href="stylesheet.css" type="text/css" media="all" />'; 
+            <link rel="stylesheet" href="stylesheet.css" type="text/css" media="all" />
+	    <script type="text/javascript" src="javascript/jquery-1.12.4.min.js"></script>
+            <script type="text/javascript" src="javascript/editorbuttons.js"></script>
+            <script type="text/javascript" src="javascript/ajaxscript.js"></script>';
     }
 
     function headerContent() 
