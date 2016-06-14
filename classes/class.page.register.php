@@ -6,7 +6,7 @@ class Register extends Page
 {
     function bodyContent() 
     { 
-        $reg = '<h1>Register</h1>';
+        $reg = '<h1 id="registerheader">Register</h1>';
 
         $reg .= '<form name="register" action="" method="POST">';
 
