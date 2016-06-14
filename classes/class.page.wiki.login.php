@@ -26,7 +26,9 @@ class FonLoginPage extends Wiki
     public function fonShowLogin() 
     {
         echo '<form method="POST">
+            <input type="hidden" name="page" value="login">
             <fieldset><legend>User Login</legend>
+            
             <input type="text" name="usernamefield" placeholder="Username">
             <br>
             <input type="text" name="passwordfield" placeholder="Password">
@@ -81,13 +83,3 @@ class FonLoginPage extends Wiki
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
