@@ -109,11 +109,11 @@ class Register extends Wiki
         $success = $this->saveUserData();
         if ($success == true)
         {
-            echo 'thank you so much for registering!';
+            echo ' thank you so much for registering!';
         }
         else
         {
-            echo 'but registration failed!';
+            echo ' but registration failed!';
         }
     }
 }
