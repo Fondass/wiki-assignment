@@ -7,14 +7,28 @@
 
 class FonController 
 {
+    var $db;
+    var $user;
+    var $ispostrequest;
+   
     // constructs an instance of the controller class and also creates a database object. (is this the best practice?)    
     public function __construct()
     {
            require_once("classes/class.login.php");
            require_once("classes/class.db.php");
            require_once("classes/class.debug.php");
+           require_once("classes/class.helpers.php");
            $this->db = new database();
            $this->user = new FonLogin($this->db);
+           //not really using this yet:
+           if ($_SERVER["REQUEST_METHOD"]==="POST")
+           {
+               $this->ispostrequest = true;
+           }
+           else
+           {
+               $this->ispostrequest = false;
+           }
     }
     
 //===============================================================
@@ -54,19 +68,10 @@ class FonController
     //this returns the accurate parameter depending on what page is requested
     public function fonGetPage () 
     {
-        if (isset($_POST["page"])) 
-        {
-            return $_POST["page"];
-        }
-        elseif (isset($_GET["page"]))
-        {        
-            return $_GET["page"];   
-        }
-        else
-        {
-            return "home";
-        }
-    }
+        $key = "page";
+        $result = Helpers::arrayChecker($key);
+        return $result;
+    } 
   
 
 //==============================================================
@@ -135,23 +140,19 @@ class FonController
                 $newadmin = strip_tags(htmlspecialchars($_POST["id"], ENT_QUOTES, "UTF-8"));
                 $page = new Userpanel($this->db, $this->user, $newadmin);
                 break;
+                
+            case "loadfile":
+                require_once("classes/class.page.wiki.fileupload.php");
+                $page = new FileUpload($this->db, $this->user);
+                break;
             
             case "searchresult":
                 require_once("classes/class.page.searchresult.php");
-                if (isset($_POST["title"]))
-                {
-                    $title = $_POST["title"];
-                }
-                if (isset($_POST["tagid"]))
-                {
-                    $array = $_POST["tagid"]; 
-                }
-                else
-                {
-                    $array = "";
-                }
                 
-                if (isset($_POST["title"]))
+                $title = Helpers::arrayChecker("title", "");
+                $array = Helpers::arrayChecker("tagid", "");
+                                
+                if ($title !== "")
                 {
                     $page = new Searchresult($array, $this->db, $this->user, $title);
                 }
