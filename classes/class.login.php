@@ -25,15 +25,7 @@ class FonLogin
     
     public function fonUserCheck()
     {
-        if (isset ($_POST["usernamefield"]))
-        {
-            $username = $_POST["usernamefield"];
-        }
-        
-        else
-        {
-            $username = "";
-        }
+        $username = Helpers::arrayChecker("usernamefield", "");
         
         if (isset ($_POST["passwordfield"]))
         {
