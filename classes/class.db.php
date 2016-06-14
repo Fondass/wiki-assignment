@@ -5,6 +5,9 @@
 
 class database
 {
+    
+    
+    
 	public function __construct()
 	{
 		if (PDODAO::connect() == true)
@@ -123,7 +126,7 @@ class database
             {
                 $sql = 'SELECT permission FROM users WHERE name="'.$username.'"';
                 $result = PDODAO::getDataArray($sql);
-
+                               
                 return $result['permission'];
             }
         }
@@ -266,7 +269,7 @@ class database
             public function saveNewUser($newuser, $newpass, $salt)
 	    {
 	        $sql = 'INSERT INTO users(name, password, permission, salt) VALUES ("'.$newuser.'","'.$newpass.'",1, "'.$salt.'")';
-	        PDODAO::doInsertQuery($sql);
+	        return PDODAO::doInsertQuery($sql);
 	    }
 //=============================================           
             
@@ -287,52 +290,12 @@ class database
             
 //=============================================
 
-            public function fonGetPageRating($pageid)
-            {
-                $sql = 'SELECT rating FROM rating WHERE pages_id ="'.$pageid.'"';
-                $result = PDODAO::getDataArrays($sql);
-                
-                foreach ($result as $value)
-                {
-                    $rating[] = $value[0];
-                }
-                
-                if (isset($rating))
-                {
-                return $rating;
-                }
-                else
-                {
-                    $rating = array(5,5);
-                    return $rating;
-                }
-            }
-      
-//=============================================
-
-            public function fonSavePageRating($pageid, $rating)
-            {
-                $sql = 'INSERT INTO rating (pages_id, rating) VALUES ("'.$pageid.'","'.$rating.'")';
-                PDODAO::doInsertQuery($sql);
-            }
             
 //=============================================
 
-            public function fonTest()
-            {
-                return "test okey";
-            }
             
-//============================================= 
-
-            public function fonGetPageIdOnName($name)
-            {
-                $sql = 'SELECT id FROM pages WHERE name="'.$name.'"';
-                $result = PDODAO::getDataArray($sql);
-                return $result[0];
-            }
-
-
+//=============================================
 
             
+//=============================================             
 }
