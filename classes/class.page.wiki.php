@@ -29,10 +29,7 @@ include('classes/class.search.php');
         echo '<head>
             <meta charset=UTF-8 />
             <meta name="codepedia" content="Netbeans" />
-            <link rel="stylesheet" href="stylesheet.css" type="text/css" media="all" />
-            <script type="text/javascript" src="javascript/jquery-1.12.4.min.js"></script>
-            <script type="text/javascript" src="javascript/editorbuttons.js"></script>
-            <script type="text/javascript" src="javascript/ajaxscript.js"></script>'; 
+            <link rel="stylesheet" href="stylesheet.css" type="text/css" media="all" />'; 
     }
 
     function headerContent() 
@@ -56,12 +53,15 @@ include('classes/class.search.php');
         {
            echo '<p id="loggeduser"> Active user:'.$_SESSION["username"].'</p>
                <form id="logoutbutton" method="POST" action="index.php?page=logout">
+               <input type="hidden" name="page" value="logout">
                <input type="submit" value="Logout"></form>';
         }
         else
         {
+            //can this not be done with a call to fonShowLogin?
             echo '<form id="menuloginsection" method="POST" action="index.php?page=login">
                 <legend>User Login</legend>
+                <input type="hidden" name="page" value="login">
                 <input type="text" name="usernamefield" placeholder="Username" required>
                 <br>
                 <input type="password" name="passwordfield" placeholder="Password" required>
