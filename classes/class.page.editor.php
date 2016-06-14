@@ -21,6 +21,7 @@ class FonEditorPage extends Wikipage
             <div><form method="POST">
             <fieldset>
             <legend>Edit wiki page</legend>
+            <input type="hidden" name="page" value="editor">
             <input style="width:30%; heigth:50px; font-size:30px" 
             type="text" name="wikititle" placeholder="Wiki Page Tittle" required ><br>
             Page editor<br>
