@@ -15,4 +15,4 @@ require_once("classes/class.pdo.php");
 
 $myController = new FonController();
 
-$myController->fonRequestCheck();
+$myController->requestCheck();
