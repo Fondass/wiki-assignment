@@ -55,7 +55,7 @@ p
 
 #menutopwrapper
 {
-    margin-top: 20px;
+    margin-top: -20%;
     height: 100px;
     position: relative;
 }
@@ -67,12 +67,9 @@ p
 
 .menubutton
 {
-    margin-left: 20%;
     background-color: powderblue;
-    width: 60%;
-    min-width: 130px;
+    width: 98.8%;
     min-height: 50px;
-    margin-top: 5%;
     height: 7%;
     position: relative;
     text-align: center;
@@ -80,16 +77,10 @@ p
     font-style: oblique;
     border: solid;
     border-color: lightslategray;
-    border-radius: 30%;
     line-height: 60px;
+    margin: 0;
+    padding: 0;
 }
-
-#regbuttonoff
-{
-    background-color: lightslategray;
-}
-
-
 
 #wikigentitle
 {
@@ -123,4 +114,43 @@ a
 {
     margin-left: 20%;
     margin-bottom: 5%;
+}
+
+#menusearch
+{
+    background-color: powderblue;
+    position: absolute;
+    margin-left: 100%;
+    margin-top: -27%;
+    border: solid;
+    border-color: lightslategray;
+    padding: 0px;
+    display: none;
+}
+
+#menulogindiv
+{
+    background-color: powderblue;
+    position: absolute;
+    margin-left: 100%;
+    margin-top: -27%;
+    border: solid;
+    border-color: lightslategray;
+    padding: 0px;
+    display: none;
+}
+
+#regbutton
+{
+    font-size: 28px;
+}
+
+#registerbutton
+{
+    background-color: azure;
+    border: solid;
+    border-color: silver;
+    border-width: thin;
+    display: inline-block;
+    width: 30%;
 }
