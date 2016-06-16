@@ -18,8 +18,7 @@
                                 throw new Exception('Page not found.');
                             }
                     }
-
-
+                    
             //TODO: add variables and functions unique to the home page
             
                     function bodyContent() 

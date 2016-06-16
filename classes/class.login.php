@@ -2,18 +2,15 @@
 
 class FonLogin
 {
-    
 
     public function __construct($db)
     {
         $this->db = $db;
     }
     
-    
     protected $username;
     protected $password;
     protected $db;
-
 
     /*
      * fonUserCheck is a function that initially runs to see if the entered vallues
@@ -21,9 +18,8 @@ class FonLogin
      * It returns true when a user has succsesfully logged in, and false when a 
      * user entered the wrong username / password.
      */
-    
-    
-    public function fonUserCheck()
+     
+    public function userCheck()
     {
         $username = Helpers::arrayChecker("usernamefield", "");
         
@@ -44,7 +40,7 @@ class FonLogin
         
         $username = htmlspecialchars($username, ENT_QUOTES, "UTF-8");
         
-        $pass = $this->db->fonCheckUserCredentials($username);
+        $pass = $this->db->checkUserCredentials($username);
         
         if (htmlspecialchars($password, ENT_QUOTES, "UTF-8") === $pass)
         {
@@ -67,7 +63,7 @@ class FonLogin
      */
     
 
-    public function fonLoggedUser()
+    public function loggedUser()
     {
         return (isset($_SESSION["username"]) != "");
     }
@@ -78,7 +74,7 @@ class FonLogin
     */
     
     
-    public function fonUserLogout()
+    public function userLogout()
     {
         session_destroy();
         header("location: index.php?page=home");

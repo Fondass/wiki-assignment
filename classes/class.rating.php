@@ -1,11 +1,5 @@
 <?php
 
-/* 
- * 
- * 
- * 
- */
-
 class FonRatingSystem
 {
     public function __construct($db)
@@ -13,9 +7,9 @@ class FonRatingSystem
         $this->db = $db;
     }
     
-    public function fonRatingShow($id)
+    public function ratingShow($id)
     {
-        $rating = $this->db->fonGetPageRating($id);
+        $rating = $this->db->getPageRating($id);
         
         
         
@@ -27,18 +21,18 @@ class FonRatingSystem
         
         $ratingrounded = round($ratingavg, 1);
         
-        Debug::writeToLogFile("new rating = ".$ratingrounded);
+
         
         return $ratingrounded;
     }
     
     
-    public function fonRatingCalc($id, $score)
+    public function ratingCalc($id, $score)
     {
 
-        $this->db->fonSavePageRating($id, $score);
+        $this->db->savePageRating($id, $score);
         
-        echo '<p id="ratingshowref">'.$this->fonRatingShow($id).'</p>';
+        echo '<p id="ratingshowref">'.$this->ratingShow($id).'</p>';
     }
     
     
@@ -57,9 +51,6 @@ class FonRatingSystem
                     <option value=10>10</option>
                     </select>                    
                 <input type="button" name="ratingbutton" 
-                value="rate!" onclick="fonAjaxRater('.$id.')"></form>'; 
+                value="rate!" onclick="ajaxRater('.$id.')"></form>'; 
     }
-    
-    
-    
 }

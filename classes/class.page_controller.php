@@ -2,9 +2,6 @@
 /* Sybren Bos.... wished al rights were reserved, but they weren't :( 
    Use at own risk (i am not liable for any mistakes and/or errors, yours and mine) */
 
-
-
-
 class FonController 
 {
     var $db;
@@ -18,6 +15,7 @@ class FonController
            require_once("classes/class.db.php");
            require_once("classes/class.debug.php");
            require_once("classes/class.helpers.php");
+           require_once("classes/class.page.wiki.login.php");
            $this->db = new database();
            $this->user = new FonLogin($this->db);
            //not really using this yet:
@@ -34,25 +32,25 @@ class FonController
 //===============================================================
     
     //checks for ajax request (not really used atm)
-    public function fonRequestCheck()
+    public function requestCheck()
     {
         if (isset($_POST["ajaxaction"]) || isset($_GET["ajaxaction"]))
         {
-            $this->fonHandleAjaxRequest();
+            $this->handleAjaxRequest();
         }
         else
         {
-            $this->fonHandleRequest();
+            $this->handleRequest();
         }  
     }
     
 //===============================================================    
     
     //this call the show function on the page object created with fonPageController()
-    public function fonHandleRequest() 
+    public function handleRequest() 
     {
-        $pagevar =  $this->fonGetPage();
-        $page = $this->fonPageController(htmlspecialchars($pagevar, ENT_QUOTES, "UTF-8"));
+        $pagevar =  $this->getPage();
+        $page = $this->pageController(htmlspecialchars($pagevar, ENT_QUOTES, "UTF-8"));
         if ($page)
         {
             $page->show();
@@ -66,20 +64,20 @@ class FonController
 //==============================================================
     
     //this returns the accurate parameter depending on what page is requested
-    public function fonGetPage () 
+    public function getPage () 
     {
         $key = "page";
+
         $result = Helpers::arrayChecker($key);
         return $result;
     } 
   
-
 //==============================================================
     
     //more ajax stuff    
-    public function fonHandleAjaxRequest()
+    public function handleAjaxRequest()
     {
-        $ajaxaction = htmlspecialchars($this->fonGetAjaxPage(), ENT_QUOTES, "UTF-8");
+        $ajaxaction = htmlspecialchars($this->getAjaxPage(), ENT_QUOTES, "UTF-8");
         
         switch($ajaxaction)
         {
@@ -88,7 +86,7 @@ class FonController
                $rater = new FonRatingSystem($this->db);
                $score = htmlspecialchars($_POST["number"], ENT_QUOTES, "UTF-8");
                $id = htmlspecialchars($_POST["pageid"], ENT_QUOTES, "UTF-8");               
-               $rater->fonRatingCalc($id, $score);
+               $rater->ratingCalc($id, $score);
                break;
         }      
     }
@@ -96,7 +94,7 @@ class FonController
 //==============================================================
     
     //more ajax stuff
-    public function fonGetAjaxPage()
+    public function getAjaxPage()
     {
         if (isset($_POST["ajaxaction"]))
         {
@@ -110,7 +108,7 @@ class FonController
     
 //==============================================================
     
-    public function fonPageController($pagevar) 
+    public function pageController($pagevar) 
     {
         //the actual switch that will return a page object depending on the $pagevar
         $page = null;
@@ -128,7 +126,6 @@ class FonController
             #    break;
             #########################
             
-
             case "wikipage":
                 require_once("classes/class.page.wiki.wikipage.php");
                 $id = strip_tags(htmlspecialchars($_GET["id"], ENT_QUOTES, "UTF-8"));
@@ -178,6 +175,7 @@ class FonController
                 break;
             
             case "editor":
+
                 require_once("classes/class.page.editor.php");
                 $page = new FonEditorPage("editor", $this->db, $this->user);
                 break;
@@ -187,14 +185,15 @@ class FonController
                 $page = new Register($this->db, $this->user);
                 break;
             
-            
             case "logout":
-                $this->user->fonUserLogout();
+                $this->user->userLogout();
                 break;
             
             case "home":
+
                 
             default:
+
                 include_once("classes/class.page.wiki.home.php");
                 $page = new Home($this->db, $this->user);
         }

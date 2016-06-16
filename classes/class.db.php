@@ -21,7 +21,7 @@ class database
 	
 	//TODO: add more functions here
 	
-        public function fonSavePageToDatabase($title, $content, $tags)
+        public function savePageToDatabase($title, $content, $tags)
         {
             
             /*
@@ -53,7 +53,7 @@ class database
         
 //=============================================
 
-        public function fonSaveExistingPageToDatabase($title, $content, $tags, $id)
+        public function saveExistingPageToDatabase($title, $content, $tags, $id)
         {
             $sql= 'UPDATE pages 
                 SET name="'.$title.'", content="'.$content.'", lastedit="'.date('Y-m-d G:i:s').'" 
@@ -79,7 +79,7 @@ class database
          * the function returns the password that is coupled to the filled in username.
          */
         
-        public function fonCheckUserCredentials($username)
+        public function checkUserCredentials($username)
         {
             $sql = 'SELECT password FROM users WHERE name="'.$username.'"';
             $statement = PDODAO::prepareStatement($sql);
@@ -95,7 +95,7 @@ class database
          * currently logged in user. (user has to be logged in to use this function
          */
         
-        public function fonGetPermission()
+        public function getPermission()
         {
             $username = $_SESSION["username"];
             
@@ -136,7 +136,7 @@ class database
          */
         
         
-        public function fonGetActiveUserId()
+        public function getActiveUserId()
         {
             $username = $_SESSION["username"];
             
@@ -177,7 +177,7 @@ class database
         
 //=============================================        
         
-    public function fonSelectPagesOnName($name)
+    public function selectPagesOnName($name)
     {
        $sql = 'SELECT * FROM pages WHERE name="'.$name.'"';
         return PDODAO::getDataArray($sql);
@@ -185,7 +185,7 @@ class database
         
 //=============================================
         
-        public function fonPageOwnerIsAdmin($pagename)
+        public function pageOwnerIsAdmin($pagename)
         {
             $sql = 'SELECT users_id FROM pages WHERE name = "'.$pagename.'"';
             $statement = PDODAO::prepareStatement($sql);
@@ -218,7 +218,7 @@ class database
         
 //=============================================        
         
-        public function fonGetTagsOnPage($pageid)
+        public function getTagsOnPage($pageid)
         {
             $sql = 'SELECT tags_id FROM pages_tags WHERE pages_id="'.$pageid.'"';
             $statement = PDODAO::prepareStatement($sql);
@@ -287,7 +287,7 @@ class database
             
 //=============================================
 
-            public function fonGetPageRating($pageid)
+            public function getPageRating($pageid)
             {
                 $sql = 'SELECT rating FROM rating WHERE pages_id ="'.$pageid.'"';
                 $result = PDODAO::getDataArrays($sql);
@@ -310,7 +310,7 @@ class database
       
 //=============================================
 
-            public function fonSavePageRating($pageid, $rating)
+            public function savePageRating($pageid, $rating)
             {
                 $sql = 'INSERT INTO rating (pages_id, rating) VALUES ("'.$pageid.'","'.$rating.'")';
                 PDODAO::doInsertQuery($sql);
@@ -318,14 +318,11 @@ class database
             
 //=============================================
 
-            public function fonTest()
-            {
-                return "test okey";
-            }
+
             
 //============================================= 
 
-            public function fonGetPageIdOnName($name)
+            public function getPageIdOnName($name)
             {
                 $sql = 'SELECT id FROM pages WHERE name="'.$name.'"';
                 $result = PDODAO::getDataArray($sql);

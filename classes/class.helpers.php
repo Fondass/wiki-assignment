@@ -16,7 +16,6 @@ class Helpers
             }
             else
             {
-                
                 echo "notset";
                 return $defaultreturn;
             }

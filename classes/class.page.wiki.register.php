@@ -1,10 +1,7 @@
 <?php
 
-
-
 class Register extends Wiki
 {
-    
     public function bodyContent()
     {
         if ((isset($_POST["registerbutt"])) && $_SESSION['register'] === true)
@@ -22,7 +19,6 @@ class Register extends Wiki
             }
             //var_dump($_SESSION['register']);
         }
-        
         else
         {
             //this boolean limits the a
@@ -54,7 +50,6 @@ class Register extends Wiki
         $reg .= '</form>';
         echo $reg;
     }
-    
     
 //    protected function saveUserData()
 //    {
@@ -105,7 +100,6 @@ class Register extends Wiki
     
     protected function showRegFormFilled() 
     { 
-        
         $success = $this->saveUserData();
         if ($success == true)
         {

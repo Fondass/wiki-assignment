@@ -69,7 +69,7 @@ class Userpanel extends Wiki
 
     public function bodyContent() 
     { 
-        if ($this->user->fonLoggedUser() === true)
+        if ($this->user->loggedUser() === true)
         {
             $this->displayUsers();
         }

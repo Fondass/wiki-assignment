@@ -3,8 +3,6 @@
 require_once ("class.page.wiki.wikipage.php");
 require_once ("class.debug.php");
 
-
-
 class FonEditorPage extends Wikipage
 {
     
@@ -15,7 +13,7 @@ class FonEditorPage extends Wikipage
      */
     
     
-    protected function fonCreatePageForm()
+    protected function createPageForm()
     {
         echo '<script type="text/javascript" src="javascript/popup.js"></script>
             <div><form method="POST">
@@ -38,7 +36,7 @@ class FonEditorPage extends Wikipage
          } 
 
          echo '</fieldset>
-             '.$this->buttons->fonInputButtonMenu().'
+             '.$this->buttons->inputButtonMenu().'
             <input type="submit" name="submitnewpage" value="Commit">
             </form></div>'; 
     }
@@ -55,35 +53,34 @@ class FonEditorPage extends Wikipage
         if (isset($_GET["id"]))
         {
             $getpage = htmlspecialchars($_GET["id"], ENT_QUOTES, "UTF-8");
-            if ($this->user->fonLoggedUser())
+            if ($this->user->loggedUser())
             {
 
-                $opUser = $this->db->fonSelectPagesOnName($getpage);
+                $opUser = $this->db->selectPagesOnName($getpage);
 
-                if ($opUser[3] === $this->db->fonGetActiveUserId())
+                if ($opUser[3] === $this->db->getActiveUserId())
                 {
                     if (!isset($_POST["submitexistingpage"]))
                     {
-                        $this->fonEditPageForm($getpage);
+                        $this->editPageForm($getpage);
                     }
                     else
                     {
-                        $this->fonEditPageFormFilled();
+                        $this->editPageFormFilled();
                     } 
                 }
                 
-                elseif ($this->db->fonGetPermission() == 2)
+                elseif ($this->db->getPermission() == 2)
                 {
-
-                    if ($this->db->fonPageOwnerIsAdmin($getpage) === false)
+                    if ($this->db->pageOwnerIsAdmin($getpage) === false)
                     {
                         if (!isset($_POST["submitexistingpage"]))
                         {
-                            $this->fonEditPageForm($getpage);
+                            $this->editPageForm($getpage);
                         }
                         else
                         {
-                            $this->fonEditPageFormFilled();
+                            $this->editPageFormFilled();
                         }    
                     }
                     else
@@ -103,15 +100,15 @@ class FonEditorPage extends Wikipage
         }
         else
         {
-            if ($this->user->fonLoggedUser())
+            if ($this->user->loggedUser())
             {
                 if (!isset($_POST["submitnewpage"]))
                 {
-                    $this->fonCreatePageForm();
+                    $this->createPageForm();
                 }
                 else
                 {
-                    $this->fonCreatePageFormFilled();
+                    $this->createPageFormFilled();
                 }
             }
             else
@@ -120,8 +117,7 @@ class FonEditorPage extends Wikipage
             }
         } 
     }
-
-
+    
     /*
      * function to save the page filled in by the user in the database.
      * 
@@ -136,7 +132,7 @@ class FonEditorPage extends Wikipage
      * 
      */
     
-    protected function fonCreatePageFormFilled()
+    protected function createPageFormFilled()
     {
         echo "Your page edit has succsesfully evaded the content police and is now
             being updated on the wiki"; 
@@ -150,17 +146,15 @@ class FonEditorPage extends Wikipage
             $tags[0] = 1;
         }
         
-        
-        
         $title = htmlspecialchars($_POST["wikititle"], ENT_QUOTES, "UTF-8"); 
         $content = htmlspecialchars($_POST["pageeditor"], ENT_QUOTES, "UTF-8");
         
-        $this->fonArrayScrambler($tags);
+        $this->arrayScrambler($tags);
 
-        $this->db->fonSavePageToDatabase($title, $content, $tags);
+        $this->db->savePageToDatabase($title, $content, $tags);
     }
     
-    protected function fonArrayScrambler(&$tags)
+    protected function arrayScrambler(&$tags)
     {
         foreach ($tags as &$value)
         { 
@@ -170,21 +164,21 @@ class FonEditorPage extends Wikipage
         return $tags;
     }
     
-    protected function fonEditPageForm($pagename)
+    protected function editPageForm($pagename)
     {
         
-        $page = $this->db->fonSelectPagesOnName(htmlspecialchars($pagename, ENT_QUOTES, "UTF-8"));
+        $page = $this->db->selectPagesOnName(htmlspecialchars($pagename, ENT_QUOTES, "UTF-8"));
         
         $title = $page[1];
         $content = $page[2];
         $id = $page[0];
         
         $tags = $this->db->getTags();
-        $validtags = $this->db->fonGetTagsOnPage($id);
+        $validtags = $this->db->getTagsOnPage($id);
         
             
-        echo '<script type="text/javascript" src="javascript/popup.js"></script>
-            
+        echo '
+            <script type="text/javascript" src="javascript/popup.js"></script>
             <div><form method="POST">
             <fieldset>
             <legend>Edit wiki page</legend>
@@ -209,13 +203,14 @@ class FonEditorPage extends Wikipage
         }
      
         echo '</fieldset>
-            '.$this->buttons->fonInputButtonMenu().'
+            '.$this->buttons->inputButtonMenu().'
             <input type="hidden" name="pageid" value='.$id.'>
-            <input type="submit" name="submitexistingpage" value="Commit">
+                <input type="hidden" name="page" value="editor">
+                <input id="reeditbuttonjs" type="submit" name="submitexistingpage" value="Commit">
             </form></div>';
     }
     
-    protected function fonEditPageFormFilled()
+    protected function editPageFormFilled()
     {
         echo "Your page edit has succsesfully evaded the content police and is now
             being updated on the wiki"; 
@@ -233,9 +228,9 @@ class FonEditorPage extends Wikipage
         $content = htmlspecialchars($_POST["pageeditor"], ENT_QUOTES, "UTF-8");
         $id = htmlspecialchars($_POST["pageid"], ENT_QUOTES, "UTF-8");
 
-        $this->fonArrayScrambler($tags);
+        $this->arrayScrambler($tags);
 
-        $this->db->fonSaveExistingPageToDatabase($title, $content, $tags, $id);
+        $this->db->saveExistingPageToDatabase($title, $content, $tags, $id);
     }  
 }
 

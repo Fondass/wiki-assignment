@@ -10,7 +10,6 @@
         require_once("class.editor.inputbuttons.php");
         require_once("class.rating.php");
 
-
 //================================================
 
 	class Wikipage extends Wiki
@@ -45,30 +44,26 @@
             {
                 $this->wikipage = $this->db->selectPagesName($this->pagename);
                 
-                
-                $content = $this->converter->fonConverterScrambledToShow($this->wikipage[0]["content"]);
-                
+                $content = $this->converter->converterScrambledToShow($this->wikipage[0]["content"]);
                 
                 echo '<fieldset id="wikigenfield"><legend>
                     <h3 id="wikigentitle">'.$this->wikipage[0][1].'</h3></legend>
                     <p id="wikigencontent">'.$content.'
                     </p>
                     <form method="POST" action="index.php?page=editor&id='.$this->pagename.'">
+                    <input type="hidden" name="page" value="editor">
                     <input type="submit" name="editbutton" value="Edit">
                     </form></fieldset> 
                     <p id="wikigentags"></p>';
-                
-
-                
-               /* 
+                 
+                /* 
                 echo "Article name: ".$this->wikipage[0]['name'];
                 echo "<br />Article id: ".$this->wikipage[0]['id'];
                 echo "<br />Page content: ".$this->wikipage[0]['content'];
                 echo "<br />Creator id: ".$this->wikipage[0]['users_id'];
                 echo "<br />Tag id's: ";
-                
-                
                 */
+                
                 foreach ($this->wikipage as $value)
                 {
                     echo $value[10]." - ";
@@ -76,9 +71,8 @@
                 
                 $pageid = $this->wikipage[0][0];
                 
-                echo '<div id="ratingshow"><p id=ratingshowref>'.$this->rating->fonRatingShow($pageid).'</p>/10</div>';
+                echo '<div id="ratingshow"><p id=ratingshowref>'.$this->rating->ratingShow($pageid).'</p>/10</div>';
                 echo $this->rating->ratingFormShow($pageid);
-                
             }
 
 //===================================================

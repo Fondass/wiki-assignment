@@ -1,11 +1,8 @@
 <?php
 
-
 require_once("class.page.wiki.wikipage.php");
 include_once("class.login.php");
 require_once("class.debug.php");
-
-
 
 class FonLoginPage extends Wiki
 {
@@ -15,27 +12,26 @@ class FonLoginPage extends Wiki
      * to validate if the user is a valid user.
      */
     
-    
-    
     /*
-     * fonShowLogin is a function that displays the form for logging in.
+     * showLogin is a function that displays the form for logging in.
      * the register button is currently out of order.
      */
 
-    
-    public function fonShowLogin() 
+    public function showLogin() 
     {
-        echo '<form method="POST">
+        echo '
+            <div id="menulogindiv"><form method="POST">
             <input type="hidden" name="page" value="login">
             <fieldset><legend>User Login</legend>
             
-            <input type="text" name="usernamefield" placeholder="Username">
+            <input type="text" name="usernamefield" placeholder="Username" required>
             <br>
-            <input type="text" name="passwordfield" placeholder="Password">
+            <input type="password" name="passwordfield" placeholder="Password" required>
             <br>
             <input type="submit" name="loginsubmit" value="Login">
-            <input type="button" name="registerbutton" value="Register">
-            </fieldset></form>';
+            <a href=index.php?page=register>
+            <div id="registerbutton"> register </div></a>
+            </fieldset></form></div>';
     }
       
     /*
@@ -54,32 +50,31 @@ class FonLoginPage extends Wiki
     
     public function bodyContent()
     {
-        if ($_SERVER["REQUEST_METHOD"] === "GET" && $this->user->fonLoggedUser() === true)
+        if ($_SERVER["REQUEST_METHOD"] === "GET" && $this->user->loggedUser() === true)
         {
             // activates when a user visist the login page when already logged in
             
             echo '<p>Welcome Back pall<p>';
         }
         
-        elseif ($_SERVER["REQUEST_METHOD"] === "POST" && $this->user->fonUserCheck() === true)
+        elseif ($_SERVER["REQUEST_METHOD"] === "POST" && $this->user->userCheck() === true)
         {
             // Activates when a user logs in from logged out state.
             
-            echo "<meta http-equiv='refresh' content='0'>";
-            
+            echo "<meta http-equiv='refresh' content='0'>"; 
         }
         
-        elseif ($_SERVER["REQUEST_METHOD"] === "POST" && $this->user->fonUserCheck() !== true)
+        elseif ($_SERVER["REQUEST_METHOD"] === "POST" && $this->user->userCheck() !== true)
         {
             // activates when a user tries to log in from a logged out state but fails the
-            // fonUserCheck(), and thus, provided wrong login credentials.
+            // userCheck(), and thus, provided wrong login credentials.
             
             echo 'The princess is in another castle';
         }
         
         else
         {
-            $this-> fonShowLogin();
+            $this-> showLogin();
         }
     }
 }

@@ -2,9 +2,6 @@
 <?php
 	
 	//this is a sample home page for now. I will add some links to wiki-pages here so that we can test them.
-	
-
-
 
 class Home extends Wiki
 {
@@ -12,9 +9,7 @@ class Home extends Wiki
     
     function bodyContent() 
     { 
-
         echo "This is the home page"; 
-
     }
 }
 		

@@ -32,7 +32,8 @@ include('classes/class.search.php');
             <link rel="stylesheet" href="stylesheet.css" type="text/css" media="all" />
 	    <script type="text/javascript" src="javascript/jquery-1.12.4.min.js"></script>
             <script type="text/javascript" src="javascript/editorbuttons.js"></script>
-            <script type="text/javascript" src="javascript/ajaxscript.js"></script>';
+            <script type="text/javascript" src="javascript/ajaxscript.js"></script>
+            <script type="text/javascript" src="javascript/menubuttonchange.js"></script>';
     }
 
     function headerContent() 
@@ -47,70 +48,56 @@ include('classes/class.search.php');
 
     function beginBody() 
     {
-        
         echo '<body><div id="wrapper">
                 <div id="menubar">
-                <div id=menutopwrapper>';
-        
-        if ($this->user->fonLoggedUser())
+                <div id=menutopwrapper></div>';
+
+        echo '<a href="index.php?page=home">
+            <div class="menubutton" id="homebutton">Home</div></a>';
+            
+        if ($this->user->loggedUser())
         {
-           echo '<p id="loggeduser"> Active user:'.$_SESSION["username"].'</p>
-               <form id="logoutbutton" method="POST" action="index.php?page=logout">
-               <input type="hidden" name="page" value="logout">
-               <input type="submit" value="Logout"></form>';
+            echo '<a href="index.php?page=userpanel">
+        <div class="menubutton" id="usersbutton">Users</div></a>';
         }
-        else
-        {
-            //can this not be done with a call to fonShowLogin?
-            echo '<form id="menuloginsection" method="POST" action="index.php?page=login">
-                <legend>User Login</legend>
-                <input type="hidden" name="page" value="login">
-                <input type="text" name="usernamefield" placeholder="Username" required>
-                <br>
-                <input type="password" name="passwordfield" placeholder="Password" required>
-                <br>
-                <input type="submit" name="loginsubmit" value="Login">
-                </form>';
-        }
-        echo '</div>';
+            
+            echo '<div id="searchtotal"><div class="menubutton" id="searchbutton">Search</div>';
+                
 
         $thing = new SearchPage($this->db, $this->user);
         $thing->search->searchBox($this->db);
-            
-            
 
-        echo '<a href="index.php?page=home">
-            <div class="menubutton" id="homebutton">Home</div></a>
-            
-            <a href="index.php?page=userpanel">
-            <div class="menubutton" id="usersbutton">Users</div></a>
-            
-            <a href="index.php?page=wikipage&id=info">
+        
+        
+        echo '</div><a href="index.php?page=wikipage&id=info">
             <div class="menubutton" id="infobutton">Info</div></a>';
         
-        if ($this->user->fonLoggedUser())
+        if ($this->user->loggedUser())
         {
-            echo '<div class="menubutton" id="regbuttonoff">Register</div></a>';
+            echo '<a href="index.php?page=logout">
+                <div class= "menubutton" id="regbuttonoff">Logout</div></a>';
         }
         else
         {
-            echo '<a href="index.php?page=register">
-            <div class="menubutton" id="regbutton">Register</div></a>';
-        }
-       
+            echo '<div id=logintotal>
+            <div class="menubutton" id="regbutton">Register/Login</div>';
             
+            $loginthing = new FonLoginPage($this->db, $this->user);
+            $loginthing->showLogin();
+            
+            echo '</div>';
+            
+        }
             echo '<a href="index.php?page=editor">
                <div class="menubutton" id="editbutton">Editor</div></a>
 
-               </div><div id=maincontent>
-               '; 
+               </div><div id=maincontent>'; 
+
     }
 
     function bodyContent() 
     { 
-
         echo ""; 
-
     }
 
     function endBody() 
@@ -122,5 +109,4 @@ include('classes/class.search.php');
     { 
         echo "</html>"; 
     }
-
 }

@@ -1,8 +1,7 @@
 <?php
 
 class FileUpload extends Wiki
-{
-        
+{  
     function bodyContent() 
     { 
         if ($_SERVER["REQUEST_METHOD"]==="GET")
@@ -12,7 +11,5 @@ class FileUpload extends Wiki
                 <input type="file" name="fileToUpload" id="fileToUpload">
                 <input type="submit" value="Upload Image" name="submit">
                 </form>';
-        }    
-        
-
+        }
 }}
