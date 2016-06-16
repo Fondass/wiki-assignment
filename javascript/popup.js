@@ -1,17 +1,27 @@
-/* 
- * 
- * 
- * 
- */
 
 
-var popit = true;
-window.onbeforeunload = function()
+$(document).ready(function()
+{
+    
+    $(window).on("beforeunload", windowBeforeUnload);
+    
+    $("#reeditbuttonjs").on("mouseenter", stopPopup)
+            .on("mouseout", function() 
     {
-        if(popit === true) 
-        {
-            popit = false;
-            return "Leave? If you leave without pressing commit your edit will be lost";
-        };
-    };
+        $(window).on("beforeunload", windowBeforeUnload);
+    });
+});
+
+
+function stopPopup()
+{
+    $(window).off("beforeunload");
+}
+
+
+function windowBeforeUnload()
+{
+    return "You have unsaved data!";
+}
+
 

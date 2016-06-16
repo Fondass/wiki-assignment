@@ -1,14 +1,7 @@
-/* 
- * 
- * 
- * 
- */
 
 
 
-
-    
-    function fonAjaxRater(pagenumber)
+    function ajaxRater(pagenumber)
     {
         
         var $newrating = $('#ratinginput').val();

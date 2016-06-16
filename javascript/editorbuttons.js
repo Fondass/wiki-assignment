@@ -5,42 +5,42 @@
  */
 
 
-function fonAddImgToField()
+function addImgToField()
 {
     document.getElementById("editorfield").value += "[img]image link here[/img]";
 };
 
-function fonAddLinkToField()
+function addLinkToField()
 {
     document.getElementById("editorfield").value += "[link]Link here[linktext]Link text here[/link]";
 };
 
-function fonAddBreakToField()
+function addBreakToField()
 {
     document.getElementById("editorfield").value += "[br]";
 };
 
-function fonAddBoldToField()
+function addBoldToField()
 {
     document.getElementById("editorfield").value += "[b]bold text here[/b]";
 };
 
-function fonAddH1ToField()
+function addH1ToField()
 {
     document.getElementById("editorfield").value += "[h1]h1 text here[/h1]";
 };
 
-function fonAddH2ToField()
+function addH2ToField()
 {
     document.getElementById("editorfield").value += "[h2]h2 text here[/h2]";
 };
 
-function fonAddH3ToField()
+function addH3ToField()
 {
     document.getElementById("editorfield").value += "[h3]h3 text here[/h3]";
 };
 
-function fonAddH4ToField()
+function addH4ToField()
 {
     document.getElementById("editorfield").value += "[h4]h4 text here[/h4]";
 };
