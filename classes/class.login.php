@@ -13,7 +13,7 @@ class FonLogin
     protected $db;
 
     /*
-     * fonUserCheck is a function that initially runs to see if the entered vallues
+     * userCheck is a function that initially runs to see if the entered vallues
      * on the login page (class.page.wiki.login.php) are correct.
      * It returns true when a user has succsesfully logged in, and false when a 
      * user entered the wrong username / password.
@@ -54,7 +54,7 @@ class FonLogin
     }
     
     /*
-     * fonLoggedUser is a small function that one might call upppon whenever one sees
+     * loggedUser is a small function that one might call upppon whenever one sees
      * fit to check if the user is really logged in. 
      * 
      * This is the function to use to close of certain parts of the website:
