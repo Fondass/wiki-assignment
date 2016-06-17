@@ -79,7 +79,7 @@ p
     border-color: lightslategray;
     line-height: 60px;
     margin: 0;
-    padding: 0;
+    padding: 0
 }
 
 #wikigentitle
@@ -96,7 +96,7 @@ p
 a
 {
     text-decoration: none;
-    color: darkblue;
+    color: indigo;
 }
 
 #menusearch
@@ -153,4 +153,51 @@ a
     border-width: thin;
     display: inline-block;
     width: 30%;
+}
+
+.menutextcolor
+{
+    color: indigo;
+}
+
+.titlefield
+{
+    width: 30%;
+    min-width: 300px;
+    height: 43px;
+    font-size: 30px;
+}
+
+#editorfield
+{
+    height: 500px;
+    resize: none;
+}
+
+.searchtagsfield
+{
+    display:absolute;
+    margin-left:85%;
+    margin-top:-20%;
+    min-width: 100px;
+    max-width: 150px;
+    min-height: 100px;
+    max-height: 150px;
+}
+
+.editorgenfield
+{
+min-height: 650px;
+height: 650px;
+}
+
+.somethingsolver
+{
+    height: 100%;
+}
+
+.commitbutton
+{
+    position:absolute;
+    margin-top: 120px;
 }
