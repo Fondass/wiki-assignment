@@ -17,14 +17,13 @@ class FonEditorPage extends Wikipage
     {
         echo '<script type="text/javascript" src="javascript/popup.js"></script>
             <div><form method="POST">
-            <fieldset>
+            <fieldset class="editorgenfield">
             <legend>Edit wiki page</legend>
             <input type="hidden" name="page" value="editor">
-            <input style="width:30%; heigth:50px; font-size:30px" 
-            type="text" name="wikititle" placeholder="Wiki Page Tittle" required ><br>
-            Page editor<br>
+            <input class="titlefield" type="text" name="wikititle" placeholder="Page Title" required>
+            <br>Page editor<br>
             <textarea name="pageeditor" id="editorfield" required ></textarea>
-            <fieldset style="display:inline-block; float:right; margin-right:15%; margin-top:-0.3%;">
+            <fieldset class="searchtagsfield">
             <legend>Search tags</legend>';
         
         $this->tags = $this->db->getTags();
@@ -37,8 +36,8 @@ class FonEditorPage extends Wikipage
 
          echo '</fieldset>
              '.$this->buttons->inputButtonMenu().'
-            <input type="submit" name="submitnewpage" value="Commit">
-            </form></div>'; 
+            <input class="commitbutton" type="submit" name="submitnewpage" value="Commit">
+            </fieldset></form></div>'; 
     }
     
     /*
@@ -49,7 +48,6 @@ class FonEditorPage extends Wikipage
     
     public function bodyContent()
     {
-        
         if (isset($_GET["id"]))
         {
             $getpage = htmlspecialchars($_GET["id"], ENT_QUOTES, "UTF-8");
@@ -180,12 +178,12 @@ class FonEditorPage extends Wikipage
         echo '
             <script type="text/javascript" src="javascript/popup.js"></script>
             <div><form method="POST">
-            <fieldset>
+            <fieldset class="editorgenfield">
             <legend>Edit wiki page</legend>
-            <input style="width:30%; heigth:50px; font-size:30px" type="text" name="wikititle" value="'.$title.'"><br>
-            Page editor<br>
+            <input class="titlefield" type="text" name="wikititle" value="'.$title.'" required>
+            <br>Page editor<br>
             <textarea id="editorfield" name="pageeditor">'.$content.'</textarea>
-            <fieldset style="display:inline-block; float:right; margin-right:15%; margin-top:-0.3%;">
+            <fieldset class="searchtagsfield">
             <legend>Search tags</legend>';
             
 
@@ -207,7 +205,7 @@ class FonEditorPage extends Wikipage
             <input type="hidden" name="pageid" value='.$id.'>
                 <input type="hidden" name="page" value="editor">
                 <input id="reeditbuttonjs" type="submit" name="submitexistingpage" value="Commit">
-            </form></div>';
+            </fieldset></form></div>';
     }
     
     protected function editPageFormFilled()

@@ -61,7 +61,7 @@ include('classes/class.search.php');
         <div class="menubutton" id="usersbutton">Users</div></a>';
         }
             
-            echo '<div id="searchtotal"><div class="menubutton" id="searchbutton">Search</div>';
+            echo '<div id="searchtotal"><div class="menubutton" id="searchbutton"><p class="menutextcolor">Search</p></div>';
                 
 
         $thing = new SearchPage($this->db, $this->user);
@@ -80,19 +80,17 @@ include('classes/class.search.php');
         else
         {
             echo '<div id=logintotal>
-            <div class="menubutton" id="regbutton">Register/Login</div>';
+            <div class="menubutton" id="regbutton"><p class="menutextcolor">Register/Login</p></div>';
             
             $loginthing = new FonLoginPage($this->db, $this->user);
             $loginthing->showLogin();
             
-            echo '</div>';
-            
+            echo '</div>';    
         }
             echo '<a href="index.php?page=editor">
                <div class="menubutton" id="editbutton">Editor</div></a>
 
                </div><div id=maincontent>'; 
-
     }
 
     function bodyContent() 
