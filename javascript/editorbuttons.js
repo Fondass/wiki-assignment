@@ -44,3 +44,8 @@ function addH4ToField()
 {
     document.getElementById("editorfield").value += "[h4]h4 text here[/h4]";
 };
+
+function addYoutubeToField()
+{
+    document.getElementById("editorfield").value += "[youtube]youtube link here[/youtube]";
+};
