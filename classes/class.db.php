@@ -310,15 +310,21 @@ class database
       
 //=============================================
 
-            public function savePageRating($pageid, $rating)
+            public function savePageRating($pageid, $rating, $userid)
             {
-                $sql = 'INSERT INTO rating (pages_id, rating) VALUES ("'.$pageid.'","'.$rating.'")';
+                
+                $sql = 'INSERT INTO rating (pages_id, rating, users_id) VALUES ("'.$pageid.'","'.$rating.'","'.$userid.'")';
                 PDODAO::doInsertQuery($sql);
             }
             
 //=============================================
 
-
+            public function checkPageRated($pageid)
+            { 
+                $sql = 'SELECT users_id FROM rating WHERE pages_id ="'.$pageid.'"';
+                $result = PDODAO::getDataArray($sql);
+                return $result;
+            }
             
 //============================================= 
 

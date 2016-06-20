@@ -88,8 +88,9 @@ class FonController
                require_once("classes/class.rating.php");
                $rater = new FonRatingSystem($this->db);
                $score = htmlspecialchars($_POST["number"], ENT_QUOTES, "UTF-8");
-               $id = htmlspecialchars($_POST["pageid"], ENT_QUOTES, "UTF-8");               
-               $rater->ratingCalc($id, $score);
+               $id = htmlspecialchars($_POST["pageid"], ENT_QUOTES, "UTF-8");
+               $userid = htmlspecialchars($_POST["userid"], ENT_QUOTES, "UTF-8");
+               $rater->ratingCalc($id, $score, $userid);
                break;
                
                case 'advanced':
