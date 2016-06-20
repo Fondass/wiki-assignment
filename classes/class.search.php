@@ -132,7 +132,11 @@ class Search
                         }
                }
                
-               echo '<br /><button id="more">Next</button></div>';
+               //make sure next button isn't printed if there are less than 6 results
+               if (count($_SESSION['searchcache']) >= 5)
+               {
+                    echo '<br /><button id="more">Next</button></div>';
+               }
                $_SESSION['searchresults'] = 0;
         
         echo '</div>';       
