@@ -174,7 +174,7 @@ class FonController
     {
         $key = "ajaxaction";
         
-        $result = $this->Helper->arrayChecker($key);
+        $result = $this->helper->arrayChecker($key);
         return $result;
     }
     
