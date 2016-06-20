@@ -33,7 +33,8 @@ include('classes/class.search.php');
 	    <script type="text/javascript" src="javascript/jquery-1.12.4.min.js"></script>
             <script type="text/javascript" src="javascript/editorbuttons.js"></script>
             <script type="text/javascript" src="javascript/ajaxscript.js"></script>
-            <script type="text/javascript" src="javascript/menubuttonchange.js"></script>';
+            <script type="text/javascript" src="javascript/menubuttonchange.js"></script>
+            <script type="text/javascript" src="javascript/ajaxsearch.js"></script>';
     }
 
     function headerContent() 
@@ -58,16 +59,16 @@ include('classes/class.search.php');
         if ($this->user->loggedUser())
         {
             echo '<a href="index.php?page=userpanel">
-        <div class="menubutton" id="usersbutton">Users</div></a>';
+            <div class="menubutton" id="usersbutton">Users</div></a>';
         }
             
-            echo '<div id="searchtotal"><div class="menubutton" id="searchbutton"><p class="menutextcolor">Search</p></div>';
-                
-
-        $thing = new SearchPage($this->db, $this->user);
-        $thing->search->searchBox($this->db);
-
+        echo '<div id="searchtotal"><div class="menubutton" id="searchbutton"><p class="menutextcolor">Search</p></div>';
         
+        echo '<div class="seek">';
+          
+        $thing = new SearchPage($this->db, $this->user);
+        $thing->search->searchBox($this->db, true, false);
+        echo '</div>';
         
         echo '</div><a href="index.php?page=wikipage&id=info">
             <div class="menubutton" id="infobutton">Info</div></a>';
