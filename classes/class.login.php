@@ -3,14 +3,16 @@
 class FonLogin
 {
 
-    public function __construct($db)
+    public function __construct($db, $helper)
     {
         $this->db = $db;
+        $this->helper = $helper;
     }
     
     protected $username;
     protected $password;
     protected $db;
+    protected $helper;
 
     /*
      * userCheck is a function that initially runs to see if the entered vallues
@@ -21,15 +23,14 @@ class FonLogin
      
     public function userCheck()
     {
-        $username = Helpers::arrayChecker("usernamefield", "");
+        $username = $this->helper->specChars($_POST["usernamefield"]);
         
         if (isset ($_POST["passwordfield"]))
         {
-            $password = htmlspecialchars($_POST["passwordfield"],ENT_QUOTES, "UTF-8");
+            $password = $this->helper->specChars($_POST["passwordfield"]);
             $password .= $this->db->getSalt($username);
-            //var_dump($password);
+
             $password = hash("sha256", $password);
-            //var_dump($password);
         }
         
         else
@@ -37,12 +38,9 @@ class FonLogin
             $password = "";
         }
         
-        
-        $username = htmlspecialchars($username, ENT_QUOTES, "UTF-8");
-        
         $pass = $this->db->checkUserCredentials($username);
         
-        if (htmlspecialchars($password, ENT_QUOTES, "UTF-8") === $pass)
+        if ($this->helper->specChars($password) === $pass)
         {
             $_SESSION["username"] = $username;
             return true;
