@@ -17,7 +17,9 @@ class FonController
            require_once("classes/class.helpers.php");
            require_once("classes/class.page.wiki.login.php");
            $this->db = new database();
-           $this->user = new FonLogin($this->db);
+           $this->helper = new Helpers();
+           $this->user = new FonLogin($this->db, $this->helper);
+           
            //not really using this yet:
            if ($_SERVER["REQUEST_METHOD"]==="POST")
            {
@@ -31,7 +33,7 @@ class FonController
     
 //===============================================================
     
-    //checks for ajax request (not really used atm)
+    
     public function requestCheck()
     {
         if (isset($_POST["ajaxaction"]) || isset($_GET["ajaxaction"]))
@@ -68,7 +70,7 @@ class FonController
     {
         $key = "page";
 
-        $result = Helpers::arrayChecker($key);
+        $result = $this->helper->arrayChecker($key);
         return $result;
     } 
   
@@ -77,7 +79,8 @@ class FonController
     //more ajax stuff    
     public function handleAjaxRequest()
     {
-        $ajaxaction = htmlspecialchars($this->getAjaxPage(), ENT_QUOTES, "UTF-8");
+        $pagevar = $this->getAjaxPage();
+        $ajaxaction = htmlspecialchars($pagevar, ENT_QUOTES, "UTF-8");
         
         switch($ajaxaction)
         {
@@ -96,14 +99,10 @@ class FonController
     //more ajax stuff
     public function getAjaxPage()
     {
-        if (isset($_POST["ajaxaction"]))
-        {
-            return $_POST["ajaxaction"];
-        }
-        elseif  (isset($_GET["ajaxaction"]))
-        {
-            return $_GET["ajaxaction"];
-        }
+        $key = "ajaxaction";
+        
+        $result = $this->Helper->arrayChecker($key);
+        return $result;
     }
     
 //==============================================================
@@ -111,8 +110,10 @@ class FonController
     public function pageController($pagevar) 
     {
         //the actual switch that will return a page object depending on the $pagevar
-        $page = null;
+        
         session_start();
+        
+        $page = null;
 
         require_once("classes/class.page.php");
         require_once("classes/class.page.wiki.php");
@@ -146,8 +147,8 @@ class FonController
             case "searchresult":
                 require_once("classes/class.page.searchresult.php");
                 
-                $title = Helpers::arrayChecker("title", "");
-                $array = Helpers::arrayChecker("tagid", "");
+                $title = $this->helper->arrayChecker("title", "");
+                $array = $this->helper->arrayChecker("tagid", "");
                                 
                 if ($title !== "")
                 {
