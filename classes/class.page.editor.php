@@ -36,7 +36,7 @@ class FonEditorPage extends Wikipage
 
          echo '</fieldset>
              '.$this->buttons->inputButtonMenu().'
-            <input class="commitbutton" type="submit" name="submitnewpage" value="Commit">
+            <input class="commitbutton" id="reeditbuttonjs" type="submit" name="submitnewpage" value="Commit">
             </fieldset></form></div>'; 
     }
     
