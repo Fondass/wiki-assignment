@@ -88,10 +88,14 @@ include('classes/class.search.php');
             
             echo '</div>';    
         }
+        
+        if ($this->user->loggeduser())
+        {
             echo '<a href="index.php?page=editor">
-               <div class="menubutton" id="editbutton">Editor</div></a>
+               <div class="menubutton" id="editbutton">Editor</div></a>';
+        }    
 
-               </div><div id=maincontent>'; 
+            echo '</div><div id=maincontent>'; 
     }
 
     function bodyContent() 

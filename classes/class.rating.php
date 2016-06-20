@@ -27,10 +27,11 @@ class FonRatingSystem
     }
     
     
-    public function ratingCalc($id, $score)
+    public function ratingCalc($id, $score, $userid)
     {
 
-        $this->db->savePageRating($id, $score);
+        
+        $this->db->savePageRating($id, $score, $userid);
         
         echo '<p id="ratingshowref">'.$this->ratingShow($id).'</p>';
     }
@@ -38,6 +39,9 @@ class FonRatingSystem
     
     public function ratingFormShow($id)
     {
+
+        $userid = $this->db->getActiveUserId();
+        
         return '<form><select id="ratinginput">
                     <option value=1>1</option>
                     <option value=2>2</option>
@@ -50,7 +54,7 @@ class FonRatingSystem
                     <option value=9>9</option>
                     <option value=10>10</option>
                     </select>                    
-                <input type="button" name="ratingbutton" 
-                value="rate!" onclick="ajaxRater('.$id.')"></form>'; 
+                <input type="button" name="ratingbutton" id="ratingbuttonajax"
+                value="rate!" onclick="ajaxRater('.$id.','.$userid.')"></form>'; 
     }
 }

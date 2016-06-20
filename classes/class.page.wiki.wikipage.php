@@ -51,9 +51,14 @@
                     <p id="wikigencontent">'.$content.'
                     </p>
                     <form method="POST" action="index.php?page=editor&id='.$this->pagename.'">
-                    <input type="hidden" name="page" value="editor">
-                    <input type="submit" name="editbutton" value="Edit">
-                    </form></fieldset> 
+                    <input type="hidden" name="page" value="editor">';
+                    
+                if ($this->user->loggedUser())    
+                {
+                    echo '<input type="submit" name="editbutton" value="Edit">';
+                }
+                        
+                echo '</form></fieldset> 
                     <p id="wikigentags"></p>';
                  
                 /* 
@@ -72,7 +77,24 @@
                 $pageid = $this->wikipage[0][0];
                 
                 echo '<div id="ratingshow"><p id=ratingshowref>'.$this->rating->ratingShow($pageid).'</p>/10</div>';
-                echo $this->rating->ratingFormShow($pageid);
+                
+                $this->db->checkPageRated($pageid);
+                
+                if (is_array($this->db->checkPageRated($pageid)))
+                {
+                    if (in_array($this->db->getActiveUserId(), $this->db->checkPageRated($pageid)))
+                    {
+                        echo "";
+                    }
+                    else
+                    {
+                        echo $this->rating->ratingFormShow($pageid);
+                    }
+                }
+                else
+                {
+                    echo $this->rating->ratingFormShow($pageid);
+                }
             }
 
 //===================================================
