@@ -17,9 +17,7 @@ class FonController
            require_once("classes/class.helpers.php");
            require_once("classes/class.page.wiki.login.php");
            $this->db = new database();
-           $this->helper = new Helpers();
-           $this->user = new FonLogin($this->db, $this->helper);
-           
+           $this->user = new FonLogin($this->db);
            //not really using this yet:
            if ($_SERVER["REQUEST_METHOD"]==="POST")
            {
@@ -33,7 +31,7 @@ class FonController
     
 //===============================================================
     
-    
+    //checks for ajax request (not really used atm)
     public function requestCheck()
     {
         if (isset($_POST["ajaxaction"]) || isset($_GET["ajaxaction"]))
@@ -70,7 +68,7 @@ class FonController
     {
         $key = "page";
 
-        $result = $this->helper->arrayChecker($key);
+        $result = Helpers::arrayChecker($key);
         return $result;
     } 
   
@@ -79,8 +77,7 @@ class FonController
     //more ajax stuff    
     public function handleAjaxRequest()
     {
-        $pagevar = $this->getAjaxPage();
-        $ajaxaction = htmlspecialchars($pagevar, ENT_QUOTES, "UTF-8");
+        $ajaxaction = htmlspecialchars($this->getAjaxPage(), ENT_QUOTES, "UTF-8");
         
         switch($ajaxaction)
         {
@@ -91,6 +88,74 @@ class FonController
                $id = htmlspecialchars($_POST["pageid"], ENT_QUOTES, "UTF-8");               
                $rater->ratingCalc($id, $score);
                break;
+           
+           case 'advanced':
+               require_once("classes/class.page.php");
+               require_once("classes/class.page.wiki.php");
+               require_once("classes/class.page.search.php");
+               $thing = new SearchPage($this->db, $this->user);
+               $thing->search->searchBox($this->db, true, true);
+               break;
+           
+           case 'more':                              
+               session_start();
+               $_SESSION['searchresults'] += 5;
+               if (($_SESSION['searchresults'] + 5) < count($_SESSION['searchcache']))
+               {
+                    for($i = 0; $i < 5; $i++)
+                    {
+                        $a = $i + $_SESSION['searchresults'];
+                        echo '* <a href="?page=wikipage&id='.$_SESSION['searchcache'][$a].'">'.$_SESSION['searchcache'][$a]."</a><br />";
+                    }
+
+                    echo '<br /><button id="less">Previous</button></div>';
+                    echo '<button id="more">Next</button></div>';
+               }
+               else
+               {
+                    for($i = 0; $i < 5; $i++)
+                    {
+                        $a = $i + $_SESSION['searchresults'];
+                        echo '* <a href="?page=wikipage&id='.$_SESSION['searchcache'][$a].'">'.$_SESSION['searchcache'][$a]."</a><br />";
+                                                
+                        if (($a + 1) == count($_SESSION['searchcache']))
+                        {
+                            break;
+                        }
+                    }
+                    echo '<br /><button id="less">Previous</button></div>';
+               }
+
+               //$jsonarray = json_encode($_SESSION['searchcache']);
+               //var_dump ($jsonarray);
+               break;
+            case 'less':
+                              
+               session_start();
+               $_SESSION['searchresults'] -= 5;
+               if ($_SESSION['searchresults'] < count($_SESSION['searchcache']))
+               {
+                    for($i = 0; $i < 5; $i++)
+                    {
+                        $a = $i + $_SESSION['searchresults'];
+                        echo '* <a href="?page=wikipage&id='.$_SESSION['searchcache'][$a].'">'.$_SESSION['searchcache'][$a]."</a><br />";
+                    }
+
+                    echo '<br />';
+                    if ($_SESSION['searchresults'] >= 1)
+                    {
+                        echo '<button id="less">Previous</button></div>';
+                    }
+                    echo '<button id="more">Next</button></div>';
+               }
+               else
+               {
+                   echo 'whoah whoah out of bounds!!!';
+               }
+
+               //$jsonarray = json_encode($_SESSION['searchcache']);
+               //var_dump ($jsonarray);
+               break;
         }      
     }
 
@@ -99,10 +164,14 @@ class FonController
     //more ajax stuff
     public function getAjaxPage()
     {
-        $key = "ajaxaction";
-        
-        $result = $this->Helper->arrayChecker($key);
-        return $result;
+        if (isset($_POST["ajaxaction"]))
+        {
+            return $_POST["ajaxaction"];
+        }
+        elseif  (isset($_GET["ajaxaction"]))
+        {
+            return $_GET["ajaxaction"];
+        }
     }
     
 //==============================================================
@@ -110,10 +179,8 @@ class FonController
     public function pageController($pagevar) 
     {
         //the actual switch that will return a page object depending on the $pagevar
-        
-        session_start();
-        
         $page = null;
+        session_start();
 
         require_once("classes/class.page.php");
         require_once("classes/class.page.wiki.php");
@@ -147,8 +214,8 @@ class FonController
             case "searchresult":
                 require_once("classes/class.page.searchresult.php");
                 
-                $title = $this->helper->arrayChecker("title", "");
-                $array = $this->helper->arrayChecker("tagid", "");
+                $title = Helpers::arrayChecker("title", "");
+                $array = Helpers::arrayChecker("tagid", "");
                                 
                 if ($title !== "")
                 {
