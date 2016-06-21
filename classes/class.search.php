@@ -132,7 +132,6 @@ class Search
                         }
                }
                
-               //make sure next button isn't printed if there are less than 6 results
                if (count($_SESSION['searchcache']) >= 5)
                {
                     echo '<br /><button id="more">Next</button></div>';
@@ -174,6 +173,74 @@ class Search
             echo '* <a href="?page=wikipage&id='.$value.'">'.$value."</a><br />";
         }
     }
+
+//================================================
+    
+public function showLess()
+{
+    $_SESSION['searchresults'] -= 5;
+               if ($_SESSION['searchresults'] < count($_SESSION['searchcache']))
+               {
+                    for($i = 0; $i < 5; $i++)
+                    {
+                        $a = $i + $_SESSION['searchresults'];
+                        echo '* <a href="?page=wikipage&id='.$_SESSION['searchcache'][$a].'">'.$_SESSION['searchcache'][$a]."</a><br />";
+                    }
+
+                    echo '<br />';
+                    if ($_SESSION['searchresults'] >= 1)
+                    {
+                        echo '<button id="less">Previous</button></div>';
+                    }
+                    
+                    
+                        echo '<button id="more">Next</button></div>';
+                    
+               }
+               else
+               {
+                   echo 'whoah whoah out of bounds!!!';
+               }
+
+               //$jsonarray = json_encode($_SESSION['searchcache']);
+               //var_dump ($jsonarray);
+}
+    
+//================================================
+
+public function showMore()
+{
+    $_SESSION['searchresults'] += 5;
+               if (($_SESSION['searchresults'] + 5) < count($_SESSION['searchcache']))
+               {
+                    for($i = 0; $i < 5; $i++)
+                    {
+                        $a = $i + $_SESSION['searchresults'];
+                        echo '* <a href="?page=wikipage&id='.$_SESSION['searchcache'][$a].'">'.$_SESSION['searchcache'][$a]."</a><br />";
+                    }
+                    
+                    echo '<br /><button id="less">Previous</button></div>';
+                    if ($_SESSION['searchresults'] >= 5)
+                    {
+                        echo '<button id="more">Next</button></div>';
+                    }
+                    
+               }
+               else
+               {
+                    for($i = 0; $i < 5; $i++)
+                    {
+                        $a = $i + $_SESSION['searchresults'];
+                        echo '* <a href="?page=wikipage&id='.$_SESSION['searchcache'][$a].'">'.$_SESSION['searchcache'][$a]."</a><br />";
+                                                
+                        if (($a + 1) == count($_SESSION['searchcache']))
+                        {
+                            break;
+                        }
+                    }
+                    echo '<br /><button id="less">Previous</button></div>';
+    }
+}
     
 //================================================         
     //prints a little searchbox, the $title and $tags parameters can be used to request a certain kind of box
@@ -181,7 +248,7 @@ class Search
     {
         
        $this->tags = $db->getTags();
-        echo '<div id="menusearch"><form method="POST">
+        echo '<div id="menusearch"><form method="GET">
             <fieldset>
             <legend>Search box</legend>
             <input type="hidden" name="page" value="searchresult">';
@@ -204,7 +271,11 @@ class Search
         echo '</fieldset>
             <input type="submit" name="submit" value="Commit">
             </form>';
-        echo '<button id="advanced">Advanced Search</button></div>';
+        
+        if(!($title == true && $tags == true))
+        {
+            echo '<button id="advanced">Advanced Search</button></div>';
+        }
     }   
     
     //================================================         
