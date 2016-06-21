@@ -84,7 +84,7 @@ class FonController
         
         switch($ajaxaction)
         {
-           case 'rating':
+            case 'rating':
                require_once("classes/class.rating.php");
                $rater = new FonRatingSystem($this->db);
                $score = htmlspecialchars($_POST["number"], ENT_QUOTES, "UTF-8");
@@ -93,78 +93,27 @@ class FonController
                $rater->ratingCalc($id, $score, $userid);
                break;
                
-               case 'advanced':
+            case 'advanced':
                require_once("classes/class.page.php");
                require_once("classes/class.page.wiki.php");
                require_once("classes/class.page.search.php");
                $thing = new SearchPage($this->db, $this->user);
                $thing->search->searchBox($this->db, true, true);
                break;
-               
-               ## BELOW CODE NEEDS TO BE PUT IN IT'S OWN FUNCTIONS. WORK IN PROGRESS! ##
            
-               case 'more':                              
-               session_start();
-               $_SESSION['searchresults'] += 5;
-               if (($_SESSION['searchresults'] + 5) < count($_SESSION['searchcache']))
-               {
-                    for($i = 0; $i < 5; $i++)
-                    {
-                        $a = $i + $_SESSION['searchresults'];
-                        echo '* <a href="?page=wikipage&id='.$_SESSION['searchcache'][$a].'">'.$_SESSION['searchcache'][$a]."</a><br />";
-                    }
-
-                    echo '<br /><button id="less">Previous</button></div>';
-                    echo '<button id="more">Next</button></div>';
-               }
-               else
-               {
-                    for($i = 0; $i < 5; $i++)
-                    {
-                        $a = $i + $_SESSION['searchresults'];
-                        echo '* <a href="?page=wikipage&id='.$_SESSION['searchcache'][$a].'">'.$_SESSION['searchcache'][$a]."</a><br />";
-                                                
-                        if (($a + 1) == count($_SESSION['searchcache']))
-                        {
-                            break;
-                        }
-                    }
-                    echo '<br /><button id="less">Previous</button></div>';
-               }
-
-               //$jsonarray = json_encode($_SESSION['searchcache']);
-               //var_dump ($jsonarray);
+            case 'more':                              
+               //session_start();
+               require_once("classes/class.page.search.php");
+               $search = new Search();
+               $search->showMore();
                break;
+           
             case 'less':
-                              
-               session_start();
-               $_SESSION['searchresults'] -= 5;
-               if ($_SESSION['searchresults'] < count($_SESSION['searchcache']))
-               {
-                    for($i = 0; $i < 5; $i++)
-                    {
-                        $a = $i + $_SESSION['searchresults'];
-                        echo '* <a href="?page=wikipage&id='.$_SESSION['searchcache'][$a].'">'.$_SESSION['searchcache'][$a]."</a><br />";
-                    }
-
-                    echo '<br />';
-                    if ($_SESSION['searchresults'] >= 1)
-                    {
-                        echo '<button id="less">Previous</button></div>';
-                    }
-                    echo '<button id="more">Next</button></div>';
-               }
-               else
-               {
-                   echo 'whoah whoah out of bounds!!!';
-               }
-
-               //$jsonarray = json_encode($_SESSION['searchcache']);
-               //var_dump ($jsonarray);
+               require_once("classes/class.page.search.php");
+               $search = new Search();
+               $search->showLess();
                break;
-               
-               ## ABOVE CODE NEEDS TO BE PUT IN IT'S OWN FUNCTIONS. WORK IN PROGRESS! ##
-               
+                             
         }      
     }
 
@@ -185,7 +134,7 @@ class FonController
     {
         //the actual switch that will return a page object depending on the $pagevar
         
-        session_start();
+        //session_start();
         
         $page = null;
 
@@ -214,6 +163,7 @@ class FonController
                 break;
                 
             case "loadfile":
+                require_once("classes/class.fileupload.php");
                 require_once("classes/class.page.wiki.fileupload.php");
                 $page = new FileUpload($this->db, $this->user);
                 break;
@@ -257,6 +207,7 @@ class FonController
             
             case "register":
                 require_once("classes/class.page.wiki.register.php");
+                require_once('classes/class.captcha.php');
                 $page = new Register($this->db, $this->user);
                 break;
             
