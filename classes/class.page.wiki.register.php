@@ -43,9 +43,23 @@ class Register extends Wiki
                 Wachtwoord: 
                 <input type="password" name="regpw" value=""  required /><br /><br />
                 CaptCha:
-                <input name="captcha" type="text">
-                <img src="helpers/captcha.php" /><br>
-                <input type="submit" name="registerbutt" value="Register Now" /><br />
+                <input name="captcha" type="text">';
+        
+        
+        
+        //TODO: you want to change this into a call to index.php GETS ROUTED in the controller
+        //
+        //require_once('classes/class.captcha.php'); //please fix this
+        $captcha = new Captcha;
+        $reg .= '<img src="captcha.png"/><br>';
+        
+        //$this->captcha->image;
+        
+        //$reg .= '<img src="helpers/captcha.php" /><br>';
+        
+        
+        
+        $reg .= '<input type="submit" name="registerbutt" value="Register Now" /><br />
                 ';
         $reg .= '</form>';
         echo $reg;
