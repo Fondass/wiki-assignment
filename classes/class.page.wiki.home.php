@@ -1,13 +1,18 @@
 
 <?php
 	
-	//this is a sample home page for now. I will add some links to wiki-pages here so that we can test them.
+/* this is an almost empty homepage.
+ * 
+ * usage: use this as a standard .page
+ * require this script, create new Home,
+ * call new Home->show()
+ * 
+ * author: Ian de Jong
+ */	
 
 class Home extends Wiki
 {
-    //TODO: add variables and functions unique to the home page
-    
-    function bodyContent() 
+    public function bodyContent() 
     { 
         echo "This is the home page"; 
     }

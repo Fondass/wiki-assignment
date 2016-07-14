@@ -1,17 +1,19 @@
 <?php
-	
-//this is the base html template for a wiki page, it extends from the page class
 
-//make sure this is required at the places where it is needed
-//include the classes that extend this class
-//include('classes/');
-
-include('classes/class.search.php');
+/*
+ * this is the base html template for a wiki page, 
+ * it extends from the page class
+ * 
+ * usage: any created pages should be an extend from
+ * this page, (or an extend of an extend from this page)
+ * 
+ * author: Ian de Jong, Sybren Bos
+ */
 
  class Wiki extends Page
  {
-    var $db;
-    var $user;
+    protected $db;
+    protected $user;
 	
     public function __construct($db, $user) 
     {
@@ -19,12 +21,21 @@ include('classes/class.search.php');
         $this->user = $user;
     }
             
-    function beginDoc() 
+    protected function beginDoc() 
     { 
         echo "<!DOCTYPE html><html>"; 
     }
 
-    function beginHeader() 
+//================================================
+//                begin header
+//================================================
+/*
+ * put relevant header information here like
+ * javescript files and other header information.
+ */  
+//================================================
+    
+    protected function beginHeader() 
     { 
         echo '<head>
             <meta charset=UTF-8 />
@@ -37,43 +48,58 @@ include('classes/class.search.php');
             <script type="text/javascript" src="javascript/ajaxsearch.js"></script>';
     }
 
-    function headerContent() 
+    protected function headerContent() 
     { 
         echo "<title>The Codepedia</title>";
     }
 
-    function endHeader()
+    protected function endHeader()
     { 
         echo "</head>"; 
     }
 
-    function beginBody() 
+//================================================
+//                  begin body
+//================================================
+/*
+ * The code below is responsible for putting a 
+ * consistent menu across the entire website.
+ * 
+ * In the menu can be found links to the page
+ * controller, the login function 
+ * (and consequently, the logout function),
+ * and the search function.
+ */  
+//================================================
+    protected function beginBody() 
     {
         echo '<body><div id="wrapper">
-                <div id="menubar">
-                <div id=menutopwrapper></div>';
+              <div id="menubar">
+              <div id=menutopwrapper></div>';
 
         echo '<a href="index.php?page=home">
-            <div class="menubutton" id="homebutton">Home</div></a>';
+             <div class="menubutton" id="homebutton">Home</div></a>';
             
-        if ($this->user->loggedUser())
+        if ($this->user->checkLogged())
         {
             echo '<a href="index.php?page=userpanel">
             <div class="menubutton" id="usersbutton">Users</div></a>';
         }
             
-        echo '<div id="searchtotal"><div class="menubutton" id="searchbutton"><p class="menutextcolor">Search</p></div>';
+        echo '<div id="searchtotal"><div class="menubutton" id="searchbutton">
+              <p class="menutextcolor">Search</p></div>';
         
         echo '<div class="seek">';
           
         $thing = new SearchPage($this->db, $this->user);
         $thing->search->searchBox($this->db, true, false);
+        
         echo '</div>';
         
         echo '</div><a href="index.php?page=wikipage&id=info">
             <div class="menubutton" id="infobutton">Info</div></a>';
         
-        if ($this->user->loggedUser())
+        if ($this->user->checkLogged())
         {
             echo '<a href="index.php?page=logout">
                 <div class= "menubutton" id="regbuttonoff">Logout</div></a>';
@@ -81,7 +107,8 @@ include('classes/class.search.php');
         else
         {
             echo '<div id=logintotal>
-            <div class="menubutton" id="regbutton"><p class="menutextcolor">Register/Login</p></div>';
+            <div class="menubutton" id="regbutton">
+            <p class="menutextcolor">Register/Login</p></div>';
             
             $loginthing = new FonLoginPage($this->db, $this->user);
             $loginthing->showLogin();
@@ -89,26 +116,25 @@ include('classes/class.search.php');
             echo '</div>';    
         }
         
-        if ($this->user->loggeduser())
+        if ($this->user->checkLogged())
         {
             echo '<a href="index.php?page=editor">
                <div class="menubutton" id="editbutton">Editor</div></a>';
         }    
-
             echo '</div><div id=maincontent>'; 
     }
 
-    function bodyContent() 
+    protected function bodyContent() 
     { 
         echo ""; 
     }
 
-    function endBody() 
+    protected function endBody() 
     { 
         echo "</div></div></body>"; 
     }
 
-    function endDoc() 
+    protected function endDoc() 
     { 
         echo "</html>"; 
     }

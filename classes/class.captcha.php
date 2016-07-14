@@ -1,8 +1,19 @@
 <?php
 
+/*
+ * class that generates a random captcha and attaches this 
+ * to the register function of a site.
+ * 
+ * usage: create a new Captcha class and echo '<img src="captcha.png"/><br>' 
+ * where you want to captcha to appear.
+ * 
+ * author: unknown, Ian de Jong
+ */
+
+
 class Captcha
 {
-    var $image;
+    protected $image;
     
     public function __construct()
     {

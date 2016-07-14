@@ -1,16 +1,21 @@
 <?php
 	
-require_once("class.search.php");
+/* 
+ * usage: searchresult page that creates a search class and hands it 
+ * paramters, then calls to it.
+ * 
+ * author: Ian de Jong
+ */
 
 //================================================
 
 class Searchresult extends Wiki
 {
-    var $tag = array();
-    var $db;
-    var $search;
-    var $user;
-    var $title;
+    protected $tag = array();
+    protected $db;
+    public $search;
+    protected $user;
+    protected $title;
         
 //================================================         
     //takes a pagename as a parameter
@@ -32,7 +37,7 @@ class Searchresult extends Wiki
 
 //================================================         
     //returns some pages    
-    function bodyContent()
+    public function bodyContent()
     {
         $this->search->seekTitleTag($this->db, $this->tag, $this->title);
     }

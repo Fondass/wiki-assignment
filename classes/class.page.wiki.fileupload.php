@@ -1,12 +1,18 @@
 <?php
 
+/* the file upload page pressents the visitor with a form to upload images.
+ * 
+ * usage: ... not.. currently only accasible by typing in the URL ?page=loadfile
+ * 
+ * author: Ian de Jong
+ */
+
 class FileUpload extends Wiki
 {  
-    function bodyContent() 
+    public function bodyContent() 
     { 
         if ($_SERVER["REQUEST_METHOD"]==="GET")
         {
-            
             echo '<form method="post" enctype="multipart/form-data">
                 <input type="hidden" name="page" value="loadfile">
                 Select image to upload:
@@ -15,15 +21,10 @@ class FileUpload extends Wiki
                 </form>';
         }
         
-        //action="helpers/upload.php"
-        
         if ($_SERVER["REQUEST_METHOD"]==="POST")
         {
             $uploader = new Fileuploader;
-            var_dump($uploader);
-            $result = $uploader->load();
-            
-
+            $uploader->load();
 	}		
-}
+    }
 }

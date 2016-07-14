@@ -1,7 +1,14 @@
 <?php
 
-/* 
- * this helper class contains usefull functions
+/* Helper class that is intended to be used as a tooblox.
+ * functions that see mutliple uses can be put here for ease of access
+ * throughout the entire script. 
+ * 
+ * used primarily to make the rest of the scripts more easily readable. 
+ * 
+ * usage: functions that see usage through multipl scripts end up here.
+ * 
+ * author: Sybren Bos, Ian de Jong.
  */
 
 class Helpers
@@ -12,7 +19,17 @@ class Helpers
         
     }
     
-    public function arrayChecker($keyname, $defaultreturn = false)
+//================================================
+//            check request method
+//================================================
+/*
+ * function that checks what request method is used
+ * and returns the vallue of an element attached to
+ * a Post[key] or a get[key], if one is set.
+ */
+//================================================ 
+    
+    public function checkRequestMethod($keyname, $defaultreturn = false)
     {
         if ($_SERVER["REQUEST_METHOD"]==="POST")
         {
@@ -40,7 +57,15 @@ class Helpers
         return $defaultreturn;
     }
       
-//==================================================================    
+//================================================
+//                  spec chars
+//================================================
+/*
+ * function that aplies html special chars
+ * to a given string (used to slightly reduce 
+ * complexity in other scripts.
+ */
+//================================================    
     
     public function specChars($string)
     {

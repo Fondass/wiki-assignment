@@ -1,13 +1,13 @@
 <?php
 
-/* Small function that, on a call, displays buttons on a page that, with the help
- * of a corresponding javascript file add certaing caraters into a textfield.
+/*
+ * Small function that, on a call, displays buttons on a page that, with the help
+ * of a corresponding javascript file add certaing charaters into a textfield.
  * 
- * This function simply shows those button's and calls to the corresponding javascript
- * function. 
- */ 
-
-
+ * usage: echo FonInputButtons wherever you want the UI to be.
+ * 
+ * author: Sybren Bos
+ */
 
 
 class FonInputButtons
@@ -17,9 +17,17 @@ class FonInputButtons
         
     }
     
+//================================================
+//            input button menu
+//================================================
+/*
+ * HTML to generate a small menu with buttons.
+ */    
+//================================================
+    
     public function InputButtonMenu()
     {  
-        return '<fieldset style="display:inline-block; float:right; margin-right:17%; margin-top:-27%; position:relative">
+        return '<fieldset id="editbuttonsfield">
              <legend>editor input</legend>
             <script type="text/javascript" src="javascript/editorbuttons.js"></script>
             <input type="button" value="image" onclick="addImgToField();">
@@ -35,7 +43,6 @@ class FonInputButtons
             <input type="button" value="h4" onclick="addH4ToField();">
             <br>
             <input type="button" value="youtube" onclick="addYoutubeToField();">
-            </fieldset>
-            ';  
+            </fieldset>';  
     }  
 }

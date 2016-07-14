@@ -1,40 +1,68 @@
 <?php
-/* Sybren Bos.... wished al rights were reserved, but they weren't :( 
-   Use at own risk (i am not liable for any mistakes and/or errors, yours and mine) */
+
+/* class: main site controller.
+ * 
+ * usage: use as a primary handler between al pages. 
+ * all ?page= requests and ?ajaxaction= requests are
+ * handled here.
+ * 
+ * author: Sybren Bos, Ian de Jong
+ */
 
 class FonController 
 {
-    var $db;
-    var $user;
-    var $ispostrequest;
-   
-    // constructs an instance of the controller class and also creates a database object. (is this the best practice?)    
+    protected $db;
+    protected $user;
+    protected $helper;
+    
+//================================================
+//             construct controller
+//================================================
+/*
+ * This controller is where most site-wide features
+ * are handled made or included. All files that are
+ * required by many or multiple loads of the site are
+ * stacked here for convienence.
+ * 
+ * also site-wide paramaters are instantiated here
+ * so that they may be handed over to most 
+ * other classes through the controller.
+ * 
+ * (note: file requires only required by one 
+ * particualar area should be shoved in the 
+ * controller itself to limit file loading)
+ */
+//================================================
+       
     public function __construct()
     {
-           require_once("classes/class.login.php");
-           require_once("classes/class.db.php");
-           require_once("classes/class.debug.php");
-           require_once("classes/class.helpers.php");
-           require_once("classes/class.page.wiki.login.php");
-           $this->db = new database();
-           $this->helper = new Helpers();
-           $this->user = new FonLogin($this->db, $this->helper);
-           
-           //not really using this yet:
-           if ($_SERVER["REQUEST_METHOD"]==="POST")
-           {
-               $this->ispostrequest = true;
-           }
-           else
-           {
-               $this->ispostrequest = false;
-           }
+        require_once("classes/class.page.php");
+        require_once("classes/class.page.wiki.php");
+        require_once("classes/class.login.php");
+        require_once('classes/class.search.php');
+        require_once("classes/class.helpers.php");
+        require_once("classes/class.page.wiki.wikipage.php");
+        require_once('classes/class.page.search.php');
+        require_once("classes/class.editor.strconverter.php");
+        require_once("classes/class.editor.inputbuttons.php");
+        require_once("classes/class.rating.php");
+        require_once("classes/class.page.wiki.login.php");
+        
+        $this->db = new database();
+        $this->helper = new Helpers();
+        $this->user = new FonLogin($this->db, $this->helper);    
     }
     
-//===============================================================
+//================================================
+//                request check
+//================================================
+/*
+ * Divides all incomming HTTP requests into
+ * page requests or ajax requests.
+ */
+//================================================
     
-    
-    public function requestCheck()
+    public function checkRequest()
     {
         if (isset($_POST["ajaxaction"]) || isset($_GET["ajaxaction"]))
         {
@@ -46,13 +74,20 @@ class FonController
         }  
     }
     
-//===============================================================    
+//================================================
+//                 handle request
+//================================================
+/*
+ * The page found by getPage (if found) is handed
+ * on to the controller here after injection
+ * validation.
+ */
+//================================================   
     
-    //this call the show function on the page object created with fonPageController()
-    public function handleRequest() 
+    protected function handleRequest() 
     {
         $pagevar =  $this->getPage();
-        $page = $this->pageController(htmlspecialchars($pagevar, ENT_QUOTES, "UTF-8"));
+        $page = $this->pageController($this->helper->specChars($pagevar));
         if ($page)
         {
             $page->show();
@@ -63,102 +98,108 @@ class FonController
         }
     }
     
-//==============================================================
+//================================================
+//                    get page
+//================================================
+/*
+ * small function that asks the helper class
+ * CheckRequestMethod to give back the ?page= element
+ * and hands it over to handleRequest.
+ */
+//================================================
     
-    //this returns the accurate parameter depending on what page is requested
-    public function getPage () 
+    protected function getPage () 
     {
         $key = "page";
 
-        $result = $this->helper->arrayChecker($key);
+        $result = $this->helper->checkRequestMethod($key);
         return $result;
     } 
   
-//==============================================================
-    
-    //more ajax stuff    
-    public function handleAjaxRequest()
+//================================================
+//               handle Ajax Request
+//================================================
+/*
+ * The Ajax controller. This is responsible for 
+ * calling the requested ajax function. Case is retrieved
+ * from ?ajaxaction= (url) by getAjaxPage().
+ */
+//================================================
+     
+    protected function handleAjaxRequest()
     {
-        $pagevar = $this->getAjaxPage();
-        $ajaxaction = htmlspecialchars($pagevar, ENT_QUOTES, "UTF-8");
+        $pagevar = $this->getAjaxAction();
+        $ajaxaction = $this->helper->specChars($pagevar);
         
         switch($ajaxaction)
         {
             case 'rating':
-               require_once("classes/class.rating.php");
                $rater = new FonRatingSystem($this->db);
-               $score = htmlspecialchars($_POST["number"], ENT_QUOTES, "UTF-8");
-               $id = htmlspecialchars($_POST["pageid"], ENT_QUOTES, "UTF-8");
-               $userid = htmlspecialchars($_POST["userid"], ENT_QUOTES, "UTF-8");
-               $rater->ratingCalc($id, $score, $userid);
+               $score = $this->helper->specChars($_POST["number"]);
+               $id = $this->helper->specChars($_POST["pageid"]);
+               $userid = $this->helper->specChars($_POST["userid"]);
+               $rater->showAjax($id, $score, $userid);
                break;
                
             case 'advanced':
-               require_once("classes/class.page.php");
-               require_once("classes/class.page.wiki.php");
-               require_once("classes/class.page.search.php");
                $thing = new SearchPage($this->db, $this->user);
                $thing->search->searchBox($this->db, true, true);
                break;
            
             case 'more':                              
-               //session_start();
-               require_once("classes/class.page.search.php");
                $search = new Search();
                $search->showMore();
                break;
            
             case 'less':
-               require_once("classes/class.page.search.php");
                $search = new Search();
                $search->showLess();
-               break;
-                             
+               break;             
         }      
     }
 
-//==============================================================
+//================================================
+//                get Ajax Action
+//================================================
+/*
+ * small function that asks the helper class
+ * CheckRequestMethod to give back the 
+ * ?ajaxaction= element and hands it over 
+ * to handleAjaxRequest.
+ */
+//================================================
     
-    //more ajax stuff
-    public function getAjaxPage()
+    protected function getAjaxAction()
     {
         $key = "ajaxaction";
         
-        $result = $this->helper->arrayChecker($key);
+        $result = $this->helper->checkRequestMethod($key);
         return $result;
     }
     
-//==============================================================
+//================================================
+//                page controller
+//================================================
+/*
+ * main controller of the website. Every new page
+ * visit, form post, and others go through here
+ * before reaching their destination as designed by
+ * this controller.
+ */
+//================================================
     
-    public function pageController($pagevar) 
+    protected function pageController($pagevar) 
     {
-        //the actual switch that will return a page object depending on the $pagevar
-        
-        //session_start();
-        
-        $page = null;
-
-        require_once("classes/class.page.php");
-        require_once("classes/class.page.wiki.php");
-        require_once("classes/class.page.search.php");
         switch ($pagevar) 
         {
-            ########MODEL CODE#######
-            # case "":   /* page name of page */
-            #    require_once(""); /* file name of page  */
-            #    $page = new ""();  /* class name of page */
-            #    break;
-            #########################
-            
             case "wikipage":
-                require_once("classes/class.page.wiki.wikipage.php");
-                $id = strip_tags(htmlspecialchars($_GET["id"], ENT_QUOTES, "UTF-8"));
-                $page = new Wikipage($id, $this->db, $this->user);  
+                $pagename = strip_tags($this->helper->specChars($_GET["id"]));
+                $page = new Wikipage($pagename, $this->db, $this->user);  
                 break;
             
             case "promote":
                 require_once("classes/class.page.userpanel.php");
-                $newadmin = strip_tags(htmlspecialchars($_POST["id"], ENT_QUOTES, "UTF-8"));
+                $newadmin = strip_tags($this->helper->specChars($_POST["id"]));
                 $page = new Userpanel($this->db, $this->user, $newadmin);
                 break;
                 
@@ -170,9 +211,8 @@ class FonController
             
             case "searchresult":
                 require_once("classes/class.page.searchresult.php");
-                
-                $title = $this->helper->arrayChecker("title", "");
-                $array = $this->helper->arrayChecker("tagid", "");
+                $title = $this->helper->checkRequestMethod("title", "");
+                $array = $this->helper->checkRequestMethod("tagid", "");
                                 
                 if ($title !== "")
                 {
@@ -185,7 +225,6 @@ class FonController
                 break;
                 
             case "search":
-                require_once("classes/class.page.search.php");
                 $page = new SearchPage($this->db, $this->user);
                 break;
             
@@ -195,32 +234,28 @@ class FonController
                 break;
             
             case "login":
-                require_once("classes/class.page.wiki.login.php");
                 $page = new FonLoginPage($this->db, $this->user);
                 break;
             
             case "editor":
-
                 require_once("classes/class.page.editor.php");
                 $page = new FonEditorPage("editor", $this->db, $this->user);
                 break;
             
             case "register":
                 require_once("classes/class.page.wiki.register.php");
-                require_once('classes/class.captcha.php');
+                require_once("classes/class.captcha.php");
                 $page = new Register($this->db, $this->user);
                 break;
             
             case "logout":
-                $this->user->userLogout();
+                $this->user->logout();
                 break;
             
             case "home":
 
-                
             default:
-
-                include_once("classes/class.page.wiki.home.php");
+                require_once("classes/class.page.wiki.home.php");
                 $page = new Home($this->db, $this->user);
         }
         return $page;

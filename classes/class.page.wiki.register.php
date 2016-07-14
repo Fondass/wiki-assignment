@@ -1,12 +1,38 @@
 <?php
 
+/* Register page, shows a form and contains the functions 
+ * for the register proces to work. * 
+ * 
+ * usage: use this as a standard .page
+ * require this script, create new register,
+ * call new register->show()
+ * 
+ * author: Ian de Jong
+ */
+
+// TODO: move the functions from the view to a model class.
+
 class Register extends Wiki
 {
+    
+    protected $db;
+    protected $user;
+    
+//================================================
+//              register controller
+//================================================
+/*
+ * mini controller to control what html will be
+ * echo out to the user.
+ */  
+//================================================
+    
+    
     public function bodyContent()
     {
         if ((isset($_POST["registerbutt"])) && $_SESSION['register'] === true)
         {
-            //var_dump($_SESSION['register']);
+
             $_SESSION['register'] = false;
             if(isset($_POST["captcha"]) && $_POST["captcha"]!="" && $_SESSION["code"]==$_POST["captcha"])
             {
@@ -17,7 +43,6 @@ class Register extends Wiki
             {
                 echo 'captcha invalid';
             }
-            //var_dump($_SESSION['register']);
         }
         else
         {
@@ -27,56 +52,53 @@ class Register extends Wiki
         }
     }
 
+//================================================
+//              show register form
+//================================================
+/*
+ * html that shows the form for registerin,
+ * as well as making a new captcha object. 
+ */  
+//================================================  
+    
     protected function showRegisterForm() 
     { 
-        $reg = '<b>Register</b>';
-
-        $reg .= '<form name="register" action="" method="POST">'
-                . '<input type="hidden" name="page" value="register">';
-
-        $reg .= '
+        echo '<b>Register</b>
+                <form name="register" action="" method="POST">
+                <input type="hidden" name="page" value="register">
                 Username: 
-                <input type="text" name="regusername" value="" required /><br />
-                ';
-
-        $reg .= '
+                <input type="text" name="regusername" value="" required />
+                <br>
                 Wachtwoord: 
-                <input type="password" name="regpw" value=""  required /><br /><br />
+                <input type="password" name="regpw" value=""  required />
+                <br><br>
                 CaptCha:
                 <input name="captcha" type="text">';
-        
-        
         
         //TODO: you want to change this into a call to index.php GETS ROUTED in the controller
         //
         //require_once('classes/class.captcha.php'); //please fix this
         $captcha = new Captcha;
-        $reg .= '<img src="captcha.png"/><br>';
+        echo '<img src="captcha.png"/><br>';
         
         //$this->captcha->image;
         
         //$reg .= '<img src="helpers/captcha.php" /><br>';
         
-        
-        
-        $reg .= '<input type="submit" name="registerbutt" value="Register Now" /><br />
-                ';
-        $reg .= '</form>';
-        echo $reg;
+        echo '<input type="submit" name="registerbutt" value="Register Now" />
+            <br></form>'; 
     }
     
-//    protected function saveUserData()
-//    {
-//        
-//        $usern = htmlspecialchars($_POST["regusername"], ENT_QUOTES, "UTF-8");
-//        $pasw = htmlspecialchars($_POST["regpw"], ENT_QUOTES, "UTF-8");
-//        
-//        $this->db->saveNewUser($usern, $pasw);
-//    }
+//================================================
+//                  make salt
+//================================================
+/*
+ * create's a random assortment of characters
+ * to add to the users password.
+ */  
+//================================================
     
-    //=========================================
-    
-    function makeSalt()
+    protected function makeSalt()
     {
         $salt = mcrypt_create_iv(32);
         if ($salt == true)
@@ -89,9 +111,17 @@ class Register extends Wiki
         }
     }
     
-    //=========================================
+//================================================
+//              save user data
+//================================================
+/*
+ * aplies salt to the password en sends the
+ * data (username, password, and salt) to the
+ * database class for further storage.
+ */  
+//================================================
     
-    function saveUserData()
+    protected function saveUserData()
     {
         $salt = $this->makeSalt();
                  
@@ -110,7 +140,14 @@ class Register extends Wiki
         }
     }
     
-    //=========================================
+//================================================
+//              show reg form filled
+//================================================
+/*
+ * checks to see if the registration was a 
+ * succes and lets it know to the user.
+ */  
+//================================================
     
     protected function showRegFormFilled() 
     { 

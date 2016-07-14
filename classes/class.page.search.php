@@ -1,15 +1,19 @@
 <?php
 
-require_once('classes/class.search.php');
+/* 
+ * usage: search page that creates a search class and hands it 
+ * paramters, then calls to it.
+ * 
+ * author: Ian de Jong
+ */
 
 
 class SearchPage extends Wiki
 {
-    var $tags = array();   
-    var $search;
-    var $user;
-    var $db;
-    var $title;
+
+    public $search;
+    protected $user;
+    protected $db;
     
     public function __construct($db, $user)
     {
