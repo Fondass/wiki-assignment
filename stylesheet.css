@@ -1,5 +1,20 @@
 /*
-*/
+ * main CSS sheet. responsible for setting everything at the right place.
+ * 
+ * usage: add into main map to add theming :)
+ * 
+ * author: Sybren Bos
+ */
+
+/*================================================
+//                  Main Site
+//================================================
+/*
+ * this contains all the CSS that gives the 
+ * entire website it's format.
+ * 
+//================================================*/
+
 #wrapper
 {
     margin-left: auto;
@@ -7,30 +22,19 @@
     width: 100%;
 }
 
-#registerheader
+#maincontent
 {
-    padding: 0px;
-    margin: 0px;
+    margin-left: 300px;
 }
 
-p
-{
-    padding: 0px;
-    margin: 0px;
-}
-
-#wikiimage
-{
-    max-width: 200px;
-    max-height: 300px;
-}
-
-#editorfield
-{
-    width: 70%;
-    height: 500px;
-}
-
+/*================================================
+//              Main menu (side)
+//================================================
+/*
+ * this contains all the CSS that gives the 
+ * side menu it's format.
+ * 
+//================================================*/
 
 #menubar 
 {
@@ -60,11 +64,6 @@ p
     position: relative;
 }
 
-#maincontent
-{
-    margin-left: 300px;
-}
-
 .menubutton
 {
     background-color: powderblue;
@@ -82,17 +81,6 @@ p
     padding: 0
 }
 
-#wikigentitle
-{
-    font-size: 60px;
-    margin: auto;
-}
-
-#wikigenfield
-{
-    min-height: 600px;
-}
-
 a
 {
     text-decoration: none;
@@ -102,12 +90,6 @@ a
 #menusearch
 {
     margin-left: 20%;
-}
-
-#loggeduser
-{
-    margin-left: 20%;
-    margin-top: 20%;
 }
 
 #logoutbutton
@@ -160,6 +142,48 @@ a
     color: indigo;
 }
 
+/*================================================
+//              Wikipage (generated)
+//================================================
+/*
+ * this contains all the CSS that gives a
+ * database generated page it's format.
+ * 
+//================================================*/
+
+#wikiimage
+{
+    max-width: 200px;
+    max-height: 300px;
+}
+
+#wikigentitle
+{
+    font-size: 60px;
+    margin: auto;
+}
+
+#wikigenfield
+{
+    min-height: 600px;
+}
+
+
+/*================================================
+//              wiki page editor
+//================================================
+/*
+ * this contains all the CSS that gives the 
+ * page editor it's format.
+ * 
+//================================================*/
+
+#editorfield
+{
+    width: 70%;
+    height: 500px;
+}
+
 .titlefield
 {
     width: 30%;
@@ -191,9 +215,13 @@ min-height: 650px;
 height: 650px;
 }
 
-.somethingsolver
+#editbuttonsfield
 {
-    height: 100%;
+    display:inline-block;
+    float:right;
+    margin-right:17%;
+    margin-top:-27%;
+    position:relative;
 }
 
 .commitbutton
@@ -201,3 +229,34 @@ height: 650px;
     position:absolute;
     margin-top: 120px;
 }
+
+/*================================================
+//                     Misc
+//================================================*/
+
+p
+{
+    padding: 0px;
+    margin: 0px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
